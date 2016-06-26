@@ -1,0 +1,240 @@
+<html>
+   <head>
+      <title>Box2dWeb Demo</title>
+   </head>
+   <body onload="init();">
+      <canvas id="b2canvas" width="600" height="600" style="background-color:#ffffff;" ></canvas>
+   </body>
+   <script type="text/javascript" src="Box2d.min.js"></script>
+   <script type="text/javascript">
+function init()
+{
+	var b2Vec2 = Box2D.Common.Math.b2Vec2, b2BodyDef =
+		Box2D.Dynamics.b2BodyDef, b2Body = Box2D.Dynamics.b2Body, b2FixtureDef =
+		Box2D.Dynamics.b2FixtureDef, b2Fixture = Box2D.Dynamics.b2Fixture, b2World =
+		Box2D.Dynamics.b2World, b2PolygonShape =
+		Box2D.Collision.Shapes.b2PolygonShape, b2CircleShape =
+		Box2D.Collision.Shapes.b2CircleShape, b2RevoluteJointDef =
+		Box2D.Dynamics.Joints.b2RevoluteJointDef, b2DebugDraw =
+		Box2D.Dynamics.b2DebugDraw, b2MouseJointDef =
+		Box2D.Dynamics.Joints.b2MouseJointDef, b2AABB = Box2D.Collision.b2AABB, b2MassData =
+		Box2D.Collision.Shapes.b2MassData;
+
+	// 创世
+	var scale=60.0
+	var world = new b2World(new b2Vec2(0, 10), true);
+	// 设置body和fixture
+	var fixDef = new b2FixtureDef;
+	var bodyDef = new b2BodyDef;
+	fixDef.density = 1.0;		// 密度
+	fixDef.friction = 0.0;		// 摩擦力
+	fixDef.restitution = 2;	// 弹性碰撞恢复系数
+
+	if (true)
+	{
+
+		fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape;
+		bodyDef.type = b2Body.b2_staticBody;
+		bodyDef.position.Set(5, 10);
+		fixDef.shape.SetAsBox(5, 0.2);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		bodyDef.position.Set(10, 5);
+		fixDef.shape.SetAsBox(0.2, 5);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		bodyDef.position.Set(5, 0);
+		fixDef.shape.SetAsBox(5, 0.2);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		bodyDef.position.Set(0, 5);
+		fixDef.shape.SetAsBox(0.2, 5);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
+	}
+	// 创建小块
+	if (true)
+	{
+		var n = 2;
+		var r = 0.5;
+		fixDef.density = 1;
+		fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(r);
+		// fixDef.shape=new b2PolygonShape;
+		// fixDef.shape.SetAsBox(r,r);
+
+		for (var i = 0; i < n; i++)
+		{
+			bodyDef.type = b2Body.b2_dynamicBody;
+			bodyDef.position.Set(3 + i * r * 2, 5);
+			var ball = world.CreateBody(bodyDef);
+			ball.CreateFixture(fixDef);
+			bodyDef.type = b2Body.b2_staticBody;
+			bodyDef.position.Set(3 + i * r * 2, 5);
+
+			var fixp = world.CreateBody(bodyDef);
+			var myjoint = new b2RevoluteJointDef();
+
+			myjoint.bodyA = fixp;
+			myjoint.bodyB = ball;
+			myjoint.localAnchorA.Set(0, 0);
+			if (i > 0)
+//if(true)
+				myjoint.localAnchorB.Set(0, -3);
+			else
+				myjoint.localAnchorB.Set(1.8, -2.4);
+			// myjoint.enableMotor=true;
+			// myjoint.motorSpeed=-1; 
+			// myjoint.maxMotorTorque=100;
+			world.CreateJoint(myjoint);
+			// ball.SetLinearVelocity(new b2Vec2(8,0));
+		}
+	}
+
+
+	// 造墙壁
+
+
+	// 设DebugDraw
+	var debugDraw = new b2DebugDraw();
+	debugDraw.SetSprite(document.getElementById("b2canvas").getContext("2d"));
+	debugDraw.SetDrawScale(scale);
+	debugDraw.SetFillAlpha(0.5);
+	debugDraw.SetLineThickness(1.0);
+	debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+	world.SetDebugDraw(debugDraw);
+	if(true)
+	{
+		var mouseX, mouseY, mousePVec, isMouseDown, selectedBody, mouseJoint;
+		var canvasPosition = getElementPosition(document.getElementById("b2canvas"));
+
+		function handleMouseDown(e)
+		{
+			isMouseDown = true;
+			handleMouseMove(e);
+			document.addEventListener("mousemove", handleMouseMove, true);
+			document.addEventListener("touchmove", handleMouseMove, true);
+		}
+
+		document.addEventListener("mousedown", handleMouseDown, true);
+		document.addEventListener("touchstart", handleMouseDown, true);
+
+		function handleMouseUp()
+		{
+			document.removeEventListener("mousemove", handleMouseMove, true);
+			document.removeEventListener("touchmove", handleMouseMove, true);
+			isMouseDown = false;
+			mouseX = undefined;
+			mouseY = undefined;
+		}
+
+		document.addEventListener("mouseup", handleMouseUp, true);
+		document.addEventListener("touchend", handleMouseUp, true);
+
+		function handleMouseMove(e)
+		{
+			var clientX, clientY;
+			if (e.clientX)
+			{
+				clientX = e.clientX;
+				clientY = e.clientY;
+			}
+			else if (e.changedTouches && e.changedTouches.length > 0)
+			{
+				var touch = e.changedTouches[e.changedTouches.length - 1];
+				clientX = touch.clientX;
+				clientY = touch.clientY;
+			}
+			else
+			{
+				return;
+			}
+			mouseX = (clientX - canvasPosition.x) / scale;
+			mouseY = (clientY - canvasPosition.y) / scale;
+			e.preventDefault();
+		};
+
+		function getBodyAtMouse()
+		{
+			mousePVec = new b2Vec2(mouseX, mouseY);
+			var aabb = new b2AABB();
+			aabb.lowerBound.Set(mouseX - 0.001, mouseY - 0.001);
+			aabb.upperBound.Set(mouseX + 0.001, mouseY + 0.001);
+
+			// Query the world for overlapping shapes.
+
+			selectedBody = null;
+			world.QueryAABB(getBodyCB, aabb);
+			return selectedBody;
+		}
+
+		function getBodyCB(fixture)
+		{
+			if (fixture.GetBody().GetType() != b2Body.b2_staticBody)
+			{
+				if (fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), mousePVec))
+				{
+					selectedBody = fixture.GetBody();
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	// update
+	(function update()
+	 {
+	 if (isMouseDown && (!mouseJoint))
+	 {
+	 var body = getBodyAtMouse();
+	 if (body)
+	 {
+	 var md = new b2MouseJointDef();
+	 md.bodyA = world.GetGroundBody();
+	 md.bodyB = body;
+	 md.target.Set(mouseX, mouseY);
+	 md.collideConnected = true;
+	 md.maxForce = 500.0 * body.GetMass();
+	 mouseJoint = world.CreateJoint(md); body.SetAwake(true);
+	 }
+	 }
+
+	 if (mouseJoint)
+	 {
+	 if (isMouseDown)
+	 {
+	 mouseJoint.SetTarget(new b2Vec2(mouseX, mouseY));
+	 }
+	 else
+	 {
+	 world.DestroyJoint(mouseJoint); mouseJoint = null;
+	 }
+	 }
+	 world.Step(1 / 60, 10, 10);
+	 world.DrawDebugData();
+	  world.ClearForces();
+	   setTimeout(arguments.callee, 1000 / 60);
+	   }());
+	// window.setInterval(update, 1000 / 60);
+
+	function getElementPosition(element)
+	{
+		var elem = element, tagname = "", x = 0, y = 0;
+
+		while ((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined"))
+		{
+			y += elem.offsetTop;
+			x += elem.offsetLeft;
+			tagname = elem.tagName.toUpperCase();
+
+			if (tagname == "BODY")
+				elem = 0;
+
+			if (typeof(elem) == "object")
+			{
+				if (typeof(elem.offsetParent) == "object")
+					elem = elem.offsetParent;
+			}
+		}
+
+		return {x: x, y:y};
+	}
+}
+
+</script> 
+</html> 
