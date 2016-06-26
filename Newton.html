@@ -28,7 +28,7 @@ function init()
 	var bodyDef = new b2BodyDef;
 	fixDef.density = 1.0;		// 密度
 	fixDef.friction = 0.0;		// 摩擦力
-	fixDef.restitution = 2;	// 弹性碰撞恢复系数
+	fixDef.restitution = 0.9;	// 弹性碰撞恢复系数
 
 	if (true)
 	{
@@ -51,7 +51,7 @@ function init()
 	// 创建小块
 	if (true)
 	{
-		var n = 2;
+		var n = 4;
 		var r = 0.5;
 		fixDef.density = 1;
 		fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(r);
