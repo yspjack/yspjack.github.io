@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="A 一起来做函数题Description$$y =\begin{cases}x &amp;amp;(x&amp;lt;1) \\2x-3 &amp;amp;(1\le x &amp;lt; 10)\\3x - 5 &amp;amp;(10\le x)\end{cases}$$ Hint1234567891011121314#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#1">
+<meta name="keywords" content="C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2017级程设基础训练第二次上机">
+<meta property="og:url" content="http://yoursite.com/2017/10/29/程设基础训练第二次上机/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="A 一起来做函数题Description$$y =\begin{cases}x &amp;amp;(x&amp;lt;1) \\2x-3 &amp;amp;(1\le x &amp;lt; 10)\\3x - 5 &amp;amp;(10\le x)\end{cases}$$ Hint1234567891011121314#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/10/29/程设基础训练第二次上机/897-1.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/10/29/程设基础训练第二次上机/898-2.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/10/29/程设基础训练第二次上机/898-3.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/10/29/程设基础训练第二次上机/898-4.jpg">
+<meta property="og:updated_time" content="2017-10-29T13:48:45.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2017级程设基础训练第二次上机">
+<meta name="twitter:description" content="A 一起来做函数题Description$$y =\begin{cases}x &amp;amp;(x&amp;lt;1) \\2x-3 &amp;amp;(1\le x &amp;lt; 10)\\3x - 5 &amp;amp;(10\le x)\end{cases}$$ Hint1234567891011121314#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#1">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/29/程设基础训练第二次上机/897-1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/29/程设基础训练第二次上机/"/>
+
+
+
+
+
+  <title>2017级程设基础训练第二次上机 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/29/程设基础训练第二次上机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2017级程设基础训练第二次上机</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-29T12:00:00+08:00">
+                2017-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="A-一起来做函数题"><a href="#A-一起来做函数题" class="headerlink" title="A 一起来做函数题"></a>A 一起来做函数题</h2><h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p>$$y =<br>\begin{cases}<br>x &amp;(x&lt;1) \\<br>2x-3 &amp;(1\le x &lt; 10)\\<br>3x - 5 &amp;(10\le x)<br>\end{cases}$$</p>
+<h3 id="Hint"><a href="#Hint" class="headerlink" title="Hint"></a>Hint</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">int</span> x;</div><div class="line">	<span class="built_in">cin</span>&gt;&gt;x;</div><div class="line">	<span class="keyword">if</span>(x&lt;<span class="number">1</span>)</div><div class="line">		<span class="built_in">cout</span>&lt;&lt;x&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(x&lt;<span class="number">10</span>)</div><div class="line">		<span class="built_in">cout</span>&lt;&lt;<span class="number">2</span>*x<span class="number">-3</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">cout</span>&lt;&lt;<span class="number">3</span>*x<span class="number">-5</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="B-交换生资格审核"><a href="#B-交换生资格审核" class="headerlink" title="B 交换生资格审核"></a>B 交换生资格审核</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>北京仰望星空大学拥有一些针对大二学生的与国外大学进行交流的交换项目，报名的学生很多，但是只有达到一定要求的人才能通过初审，要求如下：对于三好学生要求GPA不低于3.5或大一上、下两学期平均分均（仅包含数学分析、离散数学、体育三科）均不低于80，对于非三好学生要求GPA不低于3.6或大一上、下两学期平均分均超过85。面对如此多份的交换申请，负责审核的王老师很是苦恼，请你帮助他设计一个程序检查某位申请交换的学生是否符合条件。</p>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>三行数据，第一行为该生是否为三好学生（是为1，否为0）(整型)和GPA(浮点型)，接下来两行分别为参加审核的学生大一上、下两学期学期的成绩(均为整型)：数学分析、离散数学、体育。每行数据之间用空格分开</p>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>输出该生初审结果（通过输出APPROVED，未通过输出REJECTED）</p>
+<h3 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例"></a>输入样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0 3.57</div><div class="line">82 86 90</div><div class="line">88 86 85</div></pre></td></tr></table></figure>
+<h3 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例"></a>输出样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">APPROVED</div></pre></td></tr></table></figure>
+<h3 id="Hint-1"><a href="#Hint-1" class="headerlink" title="Hint"></a>Hint</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> f;</div><div class="line">    <span class="keyword">double</span> gpa;</div><div class="line">    <span class="keyword">int</span> a1,b1,c1,a2,b2,c2;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%lf%d%d%d%d%d%d"</span>,&amp;f,&amp;gpa,&amp;a1,&amp;b1,&amp;c1,&amp;a2,&amp;b2,&amp;c2);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(f)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gpa&gt;=<span class="number">3.5</span> || (((<span class="keyword">double</span>)a1+b1+c1)/<span class="number">3</span>&gt;=<span class="number">80.0</span> &amp;&amp; ((<span class="keyword">double</span>)a2+b2+c2)/<span class="number">3</span>&gt;=<span class="number">80.0</span>))</div><div class="line">            <span class="built_in">puts</span>(<span class="string">"APPROVED"</span>);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="built_in">puts</span>(<span class="string">"REJECTED"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gpa&gt;=<span class="number">3.6</span> || (((<span class="keyword">double</span>)a1+b1+c1)/<span class="number">3</span>&gt;<span class="number">85.0</span> &amp;&amp; ((<span class="keyword">double</span>)a2+b2+c2)/<span class="number">3</span>&gt;<span class="number">85.0</span>))</div><div class="line">            <span class="built_in">puts</span>(<span class="string">"APPROVED"</span>);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="built_in">puts</span>(<span class="string">"REJECTED"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="C-韩主席来发夜宵啦"><a href="#C-韩主席来发夜宵啦" class="headerlink" title="C 韩主席来发夜宵啦"></a>C 韩主席来发夜宵啦</h2><h3 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h3><p>韩主席拜托他的好哥哥ys同学出一道有他上镜的题，于是就有了这道题：</p>
+<p>某天夜里17级的萌新们在三公寓楼下站成一排等待韩主席和ly姐姐发狗粮，最左边的同学编号为L，最右边的同学编号为R，编号为连续的正整数。（左数第一位为L，第二位为L+1，第三位为L+2，……倒数第二位为R-1，最后一位为R）</p>
+<p>现在韩主席选择一个数X，他要给所有编号为X的倍数的同学发狗粮。请你帮他选择一个数，使得他能够尽可能多的给同学们发狗粮。（由于单身狗的愤怒你不能选择X为1）</p>
+<h3 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h3><p>两个正整数L，R($1&lt; L \le R \le 10^9$)</p>
+<h3 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h3><p>一个正整数X（若同时有多个X使得条件成立，输出最小的那个）<br>当两个正整数相同时就输出这个数本身</p>
+<h3 id="输入样例-1"><a href="#输入样例-1" class="headerlink" title="输入样例"></a>输入样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">4 10</div></pre></td></tr></table></figure>
+<h3 id="输出样例-1"><a href="#输出样例-1" class="headerlink" title="输出样例"></a>输出样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2</div></pre></td></tr></table></figure>
+<h3 id="Hint-2"><a href="#Hint-2" class="headerlink" title="Hint"></a>Hint</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> L,R;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;L,&amp;R);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,(L!=R)?<span class="number">2</span>:L);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="D-成双成对的尾巴"><a href="#D-成双成对的尾巴" class="headerlink" title="D 成双成对的尾巴"></a>D 成双成对的尾巴</h2><h3 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h3><p> 一个数的阶乘尾巴总是会有很多0，如果0的个数是偶数的话，我们认为它是美观的，因为它的尾巴是成双成对的。 ​    所有$0！，1！，2！… … (n-1)!，n!$中有多少数的尾巴0的个数是偶数。</p>
+<h3 id="输入-2"><a href="#输入-2" class="headerlink" title="输入"></a>输入</h3><p>输入1个数N $(1 \le N \le 24)$ 。</p>
+<h3 id="输出-2"><a href="#输出-2" class="headerlink" title="输出"></a>输出</h3><p>输出为$0！，1！，2！……(n−1)!，n!$<br>中尾巴的0的个数是偶数的个数。</p>
+<h3 id="输入样例-2"><a href="#输入样例-2" class="headerlink" title="输入样例"></a>输入样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1</div></pre></td></tr></table></figure>
+<h3 id="输出样例-2"><a href="#输出样例-2" class="headerlink" title="输出样例"></a>输出样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2</div></pre></td></tr></table></figure>
+<h3 id="Hint-3"><a href="#Hint-3" class="headerlink" title="Hint"></a>Hint</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">int</span> L,ans=<span class="number">0</span>;</div><div class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;L);</div><div class="line">	<span class="keyword">if</span>(L&lt;=<span class="number">4</span>)</div><div class="line">		ans=L+<span class="number">1</span>;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(L&lt;=<span class="number">9</span>)</div><div class="line">		ans=<span class="number">5</span>;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(L&lt;=<span class="number">14</span>)</div><div class="line">		ans=L+<span class="number">1</span><span class="number">-5</span>;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(L&lt;=<span class="number">19</span>)</div><div class="line">		ans=<span class="number">10</span>;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		ans=L+<span class="number">1</span><span class="number">-5</span><span class="number">-5</span>;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="E-QZZ的世界观测"><a href="#E-QZZ的世界观测" class="headerlink" title="E QZZ的世界观测"></a>E QZZ的世界观测</h2><h3 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h3><p>QZZ有个名为百里木明的好友。百里木明是世界管理局的观察者，经常需要在世界壁上打开窗口进行观测。观测是一件相当无聊的事情，百里木明想到可以在大窗口里再放两个窗口以提高效率……对于给定的窗口，百里木明想知道能不能这样做，不过他懒得算，于是把问题丢给了QZZ，QZZ觉得这太简单了，就把问题丢给了你。</p>
+<p>示意图：<br><img src="/2017/10/29/程设基础训练第二次上机/897-1.jpg"></p>
+<p>现在给出百里木明拥有的3个矩形窗口，请你判断这3个窗口可以像上面这张图一样,一个套两个,可以则输出“SIXSIXSIX!”，否则输出“GG!”。</p>
+<p>注意:</p>
+<p>1．大窗口内的两个小窗口不能重叠,比如下面的情况是不可以的。<br><img src="/2017/10/29/程设基础训练第二次上机/898-2.jpg"> <img src="/2017/10/29/程设基础训练第二次上机/898-3.jpg"><br>2．内窗口的边应与外窗口的边平行，即内窗口不可以斜放,如下图是不可以的。<br><img src="/2017/10/29/程设基础训练第二次上机/898-4.jpg"><br>3．窗口的边可以重叠。<br>4．允许小窗口旋转90度后放到大窗口中。</p>
+<h3 id="输入-3"><a href="#输入-3" class="headerlink" title="输入"></a>输入</h3><p>共三行，每行两个正整数，表示每个矩形窗口的两个相临边的边长。(长宽都小于等于1000)</p>
+<h3 id="输出-3"><a href="#输出-3" class="headerlink" title="输出"></a>输出</h3><p>输出对应字符串</p>
+<h3 id="输入样例1"><a href="#输入样例1" class="headerlink" title="输入样例1"></a>输入样例1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">30 30</div><div class="line">8 9</div><div class="line">5 10</div></pre></td></tr></table></figure>
+<h3 id="输出样例1"><a href="#输出样例1" class="headerlink" title="输出样例1"></a>输出样例1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SIXSIXSIX!</div></pre></td></tr></table></figure>
+<h3 id="输入样例2"><a href="#输入样例2" class="headerlink" title="输入样例2"></a>输入样例2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">8 9</div><div class="line">5 10</div><div class="line">10 5</div></pre></td></tr></table></figure>
+<h3 id="输出样例2"><a href="#输出样例2" class="headerlink" title="输出样例2"></a>输出样例2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GG!</div></pre></td></tr></table></figure>
+<h3 id="Hint-4"><a href="#Hint-4" class="headerlink" title="Hint"></a>Hint</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Window</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">int</span> x,y;</div><div class="line">&#125; w[<span class="number">3</span>];</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">3</span>; i++)</div><div class="line">        <span class="built_in">cin</span>&gt;&gt;w[i].x&gt;&gt;w[i].y;</div><div class="line">    sort(w,w+<span class="number">3</span>,[](<span class="keyword">const</span> Window&amp;a,<span class="keyword">const</span> Window&amp;b)&#123;<span class="keyword">return</span> a.x*a.y&gt;b.x*b.y;&#125;);</div><div class="line">    <span class="keyword">int</span> f=<span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].y,w[<span class="number">2</span>].y)&lt;=w[<span class="number">0</span>].y &amp;&amp; w[<span class="number">1</span>].x+w[<span class="number">2</span>].x&lt;=w[<span class="number">0</span>].x)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].x,w[<span class="number">2</span>].y)&lt;=w[<span class="number">0</span>].y &amp;&amp; w[<span class="number">1</span>].y+w[<span class="number">2</span>].x&lt;=w[<span class="number">0</span>].x)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].y,w[<span class="number">2</span>].x)&lt;=w[<span class="number">0</span>].y &amp;&amp; w[<span class="number">1</span>].x+w[<span class="number">2</span>].y&lt;=w[<span class="number">0</span>].x)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].x,w[<span class="number">2</span>].x)&lt;=w[<span class="number">0</span>].y &amp;&amp; w[<span class="number">1</span>].y+w[<span class="number">2</span>].y&lt;=w[<span class="number">0</span>].x)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].y,w[<span class="number">2</span>].y)&lt;=w[<span class="number">0</span>].x &amp;&amp; w[<span class="number">1</span>].x+w[<span class="number">2</span>].x&lt;=w[<span class="number">0</span>].y)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].x,w[<span class="number">2</span>].y)&lt;=w[<span class="number">0</span>].x &amp;&amp; w[<span class="number">1</span>].y+w[<span class="number">2</span>].x&lt;=w[<span class="number">0</span>].y)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].y,w[<span class="number">2</span>].x)&lt;=w[<span class="number">0</span>].x &amp;&amp; w[<span class="number">1</span>].x+w[<span class="number">2</span>].y&lt;=w[<span class="number">0</span>].y)f=<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(max(w[<span class="number">1</span>].x,w[<span class="number">2</span>].x)&lt;=w[<span class="number">0</span>].x &amp;&amp; w[<span class="number">1</span>].y+w[<span class="number">2</span>].y&lt;=w[<span class="number">0</span>].y)f=<span class="number">1</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;(f?<span class="string">"SIXSIXSIX!"</span>:<span class="string">"GG!"</span>)&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/19/linux-mcs51/" rel="next" title="linux_mcs51">
+                <i class="fa fa-chevron-left"></i> linux_mcs51
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/29/problem1/" rel="prev" title="problem1">
+                problem1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-一起来做函数题"><span class="nav-number">1.</span> <span class="nav-text">A 一起来做函数题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description"><span class="nav-number">1.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hint"><span class="nav-number">1.2.</span> <span class="nav-text">Hint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-交换生资格审核"><span class="nav-number">2.</span> <span class="nav-text">B 交换生资格审核</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目描述"><span class="nav-number">2.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入"><span class="nav-number">2.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-number">2.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入样例"><span class="nav-number">2.4.</span> <span class="nav-text">输入样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出样例"><span class="nav-number">2.5.</span> <span class="nav-text">输出样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hint-1"><span class="nav-number">2.6.</span> <span class="nav-text">Hint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-韩主席来发夜宵啦"><span class="nav-number">3.</span> <span class="nav-text">C 韩主席来发夜宵啦</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目描述-1"><span class="nav-number">3.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入-1"><span class="nav-number">3.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出-1"><span class="nav-number">3.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入样例-1"><span class="nav-number">3.4.</span> <span class="nav-text">输入样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出样例-1"><span class="nav-number">3.5.</span> <span class="nav-text">输出样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hint-2"><span class="nav-number">3.6.</span> <span class="nav-text">Hint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D-成双成对的尾巴"><span class="nav-number">4.</span> <span class="nav-text">D 成双成对的尾巴</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目描述-2"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入-2"><span class="nav-number">4.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出-2"><span class="nav-number">4.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入样例-2"><span class="nav-number">4.4.</span> <span class="nav-text">输入样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出样例-2"><span class="nav-number">4.5.</span> <span class="nav-text">输出样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hint-3"><span class="nav-number">4.6.</span> <span class="nav-text">Hint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#E-QZZ的世界观测"><span class="nav-number">5.</span> <span class="nav-text">E QZZ的世界观测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目描述-3"><span class="nav-number">5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入-3"><span class="nav-number">5.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出-3"><span class="nav-number">5.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入样例1"><span class="nav-number">5.4.</span> <span class="nav-text">输入样例1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出样例1"><span class="nav-number">5.5.</span> <span class="nav-text">输出样例1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入样例2"><span class="nav-number">5.6.</span> <span class="nav-text">输入样例2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出样例2"><span class="nav-number">5.7.</span> <span class="nav-text">输出样例2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hint-4"><span class="nav-number">5.8.</span> <span class="nav-text">Hint</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
