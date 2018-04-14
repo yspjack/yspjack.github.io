@@ -151,6 +151,11 @@ C Progamin(SecdEt)!"#$%&'*+,-./0123456789:;<=>?@ABDFGHIJKLMNOQRTUVWXYZ[\]^_`bfhj
 
 {% asset_img image.png %}
 
+```
+ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+Wzx]veT{HL%*+J5Cs'~}q/o1G7(9;<FpSI&X2n4 6.h:U[OVdBwYK`f?Q_a|rc@"i^#Ru\E0gk=>ZAM3,yPl8-tj!m)$bDN
+```
+
 按照该密文转换字符表将in.txt中的内容转换成加密字符输出到`in_crpyt.txt`中。
 
 ### 评分标准
