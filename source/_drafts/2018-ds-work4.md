@@ -87,13 +87,13 @@ $ + 25x^{30} + 130x^{20} + 174x^{10} + 108$
 
 有一种文本文件加密方法，其方法如下：
 
-1、密钥由所有ASCII码可见字符（ASCII码编码值32-126为可见字符）组成，密钥长度不超过32个字符；
+1、密钥由所有**ASCII码可见字符（ASCII码编码值32-126为可见字符）**组成，密钥长度不超过32个字符；
 
-2、先将密钥中的重复字符去掉，即：只保留最先出现的字符，其后出现的相同字符都去掉；
+2、先将密钥中的重复字符去掉，即：**只保留最先出现的字符**，其后出现的相同字符都去掉；
 
 3、将不含重复字符的密钥和其它不在密钥中的可见字符（按字符升序）连成一个由可见字符组成的环，密钥在前，密钥的头字符为环的起始位置；
 
-4、设原密钥的第一个字符（即环的起始位置）作为环的开始位置标识，先从环中删除第一个字符（位置标识则移至下一个字符），再沿着环从下一个字符开始顺时针以第一个字符的ASCII码值移动该位置标识至某个字符，则该字符成为第一个字符的密文字符；然后从环中删除该字符，再从下一个字符开始顺时针以该字符的ASCII码值移动位置标识至某个字符，找到该字符的密文字符；依次按照同样方法找到其它字符的密文字符。当环中只剩一个字符时，则该剩下的最后一个字符的密文为原密钥的第一个字符。
+4、设原密钥的第一个字符（即环的起始位置）作为环的开始位置标识，先从环中删除第一个字符（位置标识则移至下一个字符），再沿着环从下一个字符开始顺时针以第一个字符的ASCII码值移动该位置标识至某个字符，则该字符成为第一个字符的密文字符；然后从环中删除该字符，再从下一个字符开始顺时针以该字符的ASCII码值移动位置标识至某个字符，找到该字符的密文字符；依次按照同样方法找到其它字符的密文字符。**当环中只剩一个字符时，则该剩下的最后一个字符的密文为原密钥的第一个字符。**
 
 下面以可见字符集只由小写字母组成为例来说明对应密文字符集生成过程。如果密钥为：helloworld，将密钥中重复字符去掉后为：`helowrd`，将不在密钥中的小写字母按照升序添加在密钥后，即形成字符串：`helowrdabcfgijkmnpqstuvxyz`，该字符串形成的环如下图所示：
 
@@ -105,7 +105,7 @@ $ + 25x^{30} + 130x^{20} + 174x^{10} + 108$
 
 上方为原文字符，下方为对应的密文字符。由所有ASCII可见字符集组成的字符集密文字符生成方式与上例相同。
 
-编写程序实现上述文件加密方法。密钥从标准输入读取，待加密文件为当前目录下的`in.txt`文件，该文件中的字符若是可见字符，则按照上述方法进行加密，否则原样输出（例如：回车换行符），加密后生成的密文文件为当前目录下的`in_crpyt.txt`。
+编写程序实现上述文件加密方法。密钥从**标准输入**读取，待加密文件为当前目录下的`in.txt`文件，该文件中的字符若是可见字符，则按照上述方法进行加密，否则原样输出（例如：回车换行符），加密后生成的密文文件为当前目录下的`in_crpyt.txt`。
 
 ### 输入形式
 
@@ -212,3 +212,110 @@ you 3
 ### 评分标准
 
 通过所有测试点将得满分。
+
+### Solution
+
+此题数据量少，使用链表实现即可。
+注意单词的输入。
+
+```C
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct Node
+{
+    char val[20];
+    int freq;
+    struct Node *next;
+};
+typedef struct Node Node;
+Node *head=NULL;
+void ins(char *word)
+{
+    Node *u=head;
+    while(u)
+    {
+        if(strcmp(u->val,word)==0)
+        {
+            u->freq++;
+            return;
+        }
+        u=u->next;
+    }
+
+    Node *tmp=(Node*)malloc(sizeof(Node));
+    strcpy(tmp->val,word);
+    tmp->freq=1;
+    tmp->next=NULL;
+
+    if(head==NULL)
+    {
+        head=tmp;
+        return;
+    }
+    if(strcmp(head->val,tmp->val)>0)
+    {
+        tmp->next=head;
+        head=tmp;
+        return;
+    }
+    Node *p,*q;
+    p=head;
+    q=head->next;
+    while(q)
+    {
+        if(strcmp(q->val,tmp->val)>0)
+        {
+            break;
+        }
+        p=q;
+        q=q->next;
+    }
+    tmp->next=q;
+    p->next=tmp;
+
+}
+
+void dumplist()
+{
+    Node *u=head;
+    while(u)
+    {
+        printf("%s %d\n",u->val,u->freq);
+        u=u->next;
+    }
+}
+
+char buf[512];
+int getword()
+{
+    int ch=getchar();
+    while(!isalpha(ch))
+    {
+        if(ch==EOF)
+            return 0;
+        ch=getchar();
+    }
+    int p=0;
+    while(isalpha(ch))
+    {
+        buf[p++]=tolower(ch);
+        ch=getchar();
+    }
+    buf[p]=0;
+    return 1;
+}
+int main()
+{
+    freopen("article.txt","r",stdin);
+    while(getword())
+    {
+        ins(buf);
+    }
+    dumplist();
+    return 0;
+}
+
+```
