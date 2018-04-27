@@ -202,6 +202,67 @@ Alcatel focus on optimizing their service offerings and revenue streams.
 
 如果你的程序输出正确得20分，每个测试点4分。提交程序名为tail.c。
 
+### 标程
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DEFLINES 10
+#define MAXLEN 81
+
+struct Tail{
+    char data[MAXLEN];
+    struct Tail *link;
+};
+
+int main(int argc,char *argv[])
+{
+    char curline[MAXLEN], *filename;
+    int n=DEFLINES,i;
+    struct Tail *list,*ptr,*qtr;
+    FILE *fp;
+
+    if(argc==3&&argv[1][0]=='-'){
+        n=atoi(argv[1]+1);
+        filename=argv[2];
+    }
+    else if(argc==2){
+        filename=argv[1];
+    }
+    else{
+    }
+    if((fp=fopen(filename,"r"))==NULL){
+        //exit(-1);
+    }
+    list=qtr=(struct Tail*)malloc(sizeof(struct Tail));
+    qtr->data[0]='\0';
+    ptr=qtr;
+    for(i=1;i<n;i++){
+        ptr=(struct Tail*)malloc(sizeof(struct Tail));
+        ptr->data[0]='\0';
+        qtr->link=ptr;
+        qtr=ptr;
+    }
+    ptr->link=list;
+
+    ptr=list;
+    while(fgets(curline,MAXLEN,fp)!=NULL){
+        strcpy(ptr->data,curline);
+        ptr=ptr->link;
+    }
+    for(i=0;i<n;i++){
+        if(ptr->data[0]!='\0')
+            printf("%s",ptr->data);
+        ptr=ptr->link;
+    }
+    fclose(fp);
+    return 0;
+}
+
+```
+
 ## 加密文件
 
 ### 问题描述
