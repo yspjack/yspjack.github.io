@@ -35,6 +35,38 @@ n只猴子围成一圈，从1到n顺序编号。从第q只猴子开始，从1到
 
 本题要求输出最后被选为大王的猴子编号，完全正确得20分，每个测试点4分。上传C语言文件名为`monkey.c`。
 
+### Solution
+
+```C
+#include <stdio.h>
+#include <string.h>
+int A[105];
+int main()
+{
+    int n,m,q;
+    scanf("%d%d%d",&n,&m,&q);
+    int cur=q-1,no=1,left=n;
+    while(1)
+    {
+
+        if(no==m)
+        {
+            A[cur]=1;
+            no=0;
+
+            left--;
+        }
+        if(left==0)
+            break;
+        cur=(cur+1)%n;
+        if(!A[cur])
+            no++;
+    }printf("%d ",cur+1);
+    return 0;
+}
+
+```
+
 ## 多项式相乘
 
 ### 问题描述
@@ -80,6 +112,145 @@ $ + 25x^{30} + 130x^{20} + 174x^{10} + 108$
 ### 评分标准
 
 该题要求输出相乘后多项式中系数不为0的系数和指数，共有5个测试点。上传C语言文件名为`multi.c`。
+
+### Solution
+
+```C
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+#define true 1
+#define false 0
+#define bool int
+//#define DEBUG 1
+//#define int long long
+struct Node
+{
+    long long a;
+    long long n;
+    struct Node *next;
+};
+typedef struct Node Node;
+
+void ins(Node **phead,long long a,long long n)
+{
+    Node *tmp=(Node*)malloc(sizeof(Node));
+    tmp->a=a;
+    tmp->n=n;
+    tmp->next=NULL;
+    if(*phead==NULL)
+    {
+        (*phead)=tmp;
+        return;
+    }
+    if((*phead)->n<tmp->n)
+    {
+        tmp->next=(*phead);
+        (*phead)=tmp;
+        return;
+    }
+    Node *p,*q;
+    p=(*phead);
+    q=(*phead)->next;
+    while(q)
+    {
+        if(p->n==n)
+        {
+            p->a+=a;
+            free(tmp);
+            return;
+        }
+        if(q->n==n)
+        {
+            q->a+=a;
+            free(tmp);
+            return;
+        }
+        if(q->n<tmp->n)
+        {
+            break;
+        }
+        p=q;
+        q=q->next;
+    }
+    p->next=tmp;
+    tmp->next=q;
+}
+
+char buf[100000];
+int i=0;
+long long fastread()
+{
+    while(buf[i]!='\0' && !isdigit(buf[i]))
+    {
+        i++;
+    }
+    long long x=0;
+    while(buf[i]!='\0' && isdigit(buf[i]))
+    {
+        x=x*10+buf[i]-'0';
+        i++;
+    }
+    return x;
+}
+void read_poly(Node **phead)
+{
+    long long a,n;
+    fgets(buf,100000,stdin);
+    int len=strlen(buf);
+    i=0;
+    while(i<len)
+    {
+        a=fastread();
+        n=fastread();
+        if(a==0)
+            continue;
+        ins(phead,a,n);
+    }
+}
+void printlist(Node *head)
+{
+    Node *u;
+    for(u=head;u;u=u->next)
+    {
+        printf("a=%d,n=%d\n",u->a,u->n);
+    }
+}
+void calc(Node *head1,Node *head2,Node **head3)
+{
+    *head3=NULL;
+    Node *i,*j;
+    for(i=head1;i!=NULL;i=i->next)
+    {
+        for(j=head2;j!=NULL;j=j->next)
+        {
+            ins(head3,(i->a)*(j->a),(i->n)+(j->n));
+        }
+    }
+
+}
+
+Node *head1=NULL,*head2=NULL,*head3=NULL;
+int main()
+{
+#ifdef DEBUG
+    freopen("multi.in","r",stdin);
+#endif
+    read_poly(&head1);
+    //printlist(head1);
+    read_poly(&head2);
+    //printlist(head2);
+    calc(head1,head2,&head3);
+    Node *u;
+    for(u=head3;u;u=u->next)
+    {
+        printf("%lld %lld ",u->a,u->n);
+    }
+    return 0;
+}
+
+```
 
 ## 文件加密（环）
 
@@ -161,6 +332,132 @@ Wzx]veT{HL%*+J5Cs'~}q/o1G7(9;<FpSI&X2n4 6.h:U[OVdBwYK`f?Q_a|rc@"i^#Ru\E0gk=>ZAM3
 ### 评分标准
 
 该题要求对指定的文件进行加密，提交的文件名为：`encode.c`。
+
+### Solution
+
+```C
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+char prekey[64];
+int strip(char *str)
+{
+    int i=strlen(str);
+    while(i>=0)
+    {
+        if(isspace(str[i]))
+        {
+            str[i]='\0';
+        }
+        else
+            return i;
+        i--;
+    }
+    return 0;
+}
+int vis[256];
+char code1[256];
+char code2[256];
+int next[256];
+int prev[256];
+
+void get_code()
+{
+    int i;
+    int len=strlen(code1);
+    for(i=0; i<len-1; i++)
+    {
+        next[i]=i+1;
+        prev[i+1]=i;
+    }
+    prev[0]=len-1;
+    next[len-1]=0;
+    int last=len;
+    int v=0;
+    while(last--)
+    {
+        int step=code1[v];
+        char tmp=code1[v];
+        //printf("%d\n",step);
+        //del
+        next[prev[v]]=next[v];
+        prev[next[v]]=prev[v];
+        //disp
+        if(v==next[v])
+        {
+            //剩下的最后一个字符的密文为原密钥的第一个字符
+            code2[(int)tmp]=code1[0];
+            break;
+        }
+        while(step--)
+        {
+            v=next[v];
+        }
+        code2[(int)tmp]=code1[v];
+#ifdef DEBUG
+        printf("%c->%c\n",(char)tmp,code1[v]);
+#endif // DEBUG
+    }
+#ifdef DEBUG
+    for(i=32; i<=126; i++)
+    {
+        printf("%c",i);
+    }
+    printf("\n");
+    for(i=32; i<=126; i++)
+    {
+        printf("%c",code2[i]);
+    }
+    printf("\n");
+#endif
+}
+
+int main()
+{
+    FILE *fin,*fout;
+    fin=fopen("in.txt","r");
+    fout=fopen("in_crpyt.txt","w");
+
+    fgets(prekey,64,stdin);
+    //fputs(prekey,fout);
+    int len1=strip(prekey);
+    int i,j;
+    memset(vis,0,sizeof(vis));
+    for(i=0,j=0; i<len1; i++)
+    {
+        if(prekey[i]>=32 && prekey[i]<=126)
+        {
+            if(!vis[(int)prekey[i]])
+            {
+                vis[(int)prekey[i]]=1;
+                code1[j++]=prekey[i];
+            }
+        }
+    }
+    for(i=32; i<=126; i++)
+        if(!vis[i])
+            code1[j++]=i;
+    code1[j]=0;
+#ifdef DEBUG
+    puts(code1);
+#endif // DEBUG
+    get_code();
+    int ch;
+    while((ch=fgetc(fin))!=EOF)
+    {
+        if(ch>=32 && ch<=126)
+        {
+            fputc(code2[ch],fout);
+        }
+        else
+            fputc(ch,fout);
+    }
+
+    return 0;
+}
+
+```
 
 ## 词频统计（数组或链表实现）
 
