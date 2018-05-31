@@ -3,39 +3,44 @@ title: 数据结构第5次作业
 tags:
 ---
 
-栈操作（栈-基本题）
-【问题描述】
+## 栈操作（栈-基本题）
+### 问题描述
 
 假设给定的整数栈初始状态为空，栈的最大容量为100。从标准输入中输入一组栈操作，按操作顺序输出出栈元素序列。栈操作：1表示入栈操作，后跟一个整数（不为1、0和-1）为入栈元素；0表示出栈操作；-1表示操作结束。
 
-【输入形式】
+### 输入形式
 
 从标准输入读取一组栈操作，入栈的整数和表示栈操作的整数之间都以一个空格分隔。
 
-【输出形式】
+### 输出形式
 
 在一行上按照操作的顺序输出出栈元素序列，以一个空格分隔各元素，最后一个元素后也要有一个空格。如果栈状态为空时进行出栈操作，或栈满时进行入栈操作，则输出字符串“error”，并且字符串后也要有一空格。所有操作都执行完后，栈也有可能不为空。
 
-【样例输入】
+<!--more-->
 
+### 样例输入
+
+```
 1 3 1 5 1 7 0 0 1 8 0 1 12 1 13 0 0 0 0 1 90 1 89 0 -1
+```
 
-【样例输出】
+### 样例输出
 
+```
 7 5 8 13 12 3 error 89
+```
 
-【样例说明】
+### 样例说明
 
 入栈元素依次为3、5、7，然后有两次出栈动作，所以先输出7和5，这时栈中只有元素3；之后元素8入栈，又出栈，输出8；随后元素12和13入栈，再进行4次出栈操作，输出13、12和3，这时栈为空，再进行出栈操作会输出error；最后90和89入栈，进行一次出栈操作，输出89，栈中剩余1个元素。
 
-【评分标准】
+### 评分标准
 
 该题要求按照操作的顺序输出出栈元素序列，提交程序名为stack.c。
 
+## C程序括号匹配检查
 
-C程序括号匹配检查
-
-【问题描述】
+### 问题描述
 
 编写一程序检查C源程序文件中{}、()等括号是否匹配,并输出第一个检测到的不匹配的括号及所对应括号所在的行号（程序中只有一个括号不匹配）。
 
@@ -55,11 +60,11 @@ C程序括号匹配检查
 
 2. 当程序处理完毕时，还存在不匹配的左括号时，输出该左括号及所在行号。
 
-【输入形式】
+### 输入形式
 
 打开当前目录下文件example.c，查体其括号是否匹配。
 
-【输出形式】
+### 输出形式
 
 若存在括号不匹配时，应输出首先能判断出现不匹配的括号及其所在的行号。当出现括号不匹配时，按下面要求输出相关信息：
 
@@ -71,7 +76,7 @@ C程序括号匹配检查
 
 `(){(()){}}`
 
-【样例输入1】
+### 样例输入1
 
 若当前目录下输入文件example.c中内容如下：
 
@@ -82,13 +87,13 @@ printf("{ hello world }\n"); // }
 )
 ```
 
-【样例输出1】
+### 样例输出1
 
 ```
 without maching ')' at line 4
 ```
 
-【样例输入2】
+### 样例输入2
 
 若当前目录下输入文件example.c中内容如下：
 
@@ -98,13 +103,13 @@ int main(){
 printf("{ hello world }d\n"); /* }*/
 ```
 
-【样例输出2】
+### 样例输出2
 
 ```
 without maching '{' at line 2
 ```
 
-【样例输入3】
+### 样例输入3
 
 若当前目录下输入文件example.c中内容如下：
 
@@ -115,21 +120,21 @@ printf("{ hello world }d\n"); /* }*/
 }
 ```
 
-【样例输出3】
+### 样例输出3
 
 ```
 (){()}
 ```
 
-【样例说明】
+### 样例说明
 
 样例1：在注释部分和字符串中的括号不考虑，在将程序处理之后得到的括号序列是（）{（）），遇到右括号时与最近的左括号匹配，发现最后一个小括号和大括号不匹配。
 
 样例2：处理之后的括号序列是（）{（），在最后缺少了右大括号，那么应该输出与之相对应的左括号不匹配。
 
-计算器（表达式计算-后缀表达式实现）
+## 计算器（表达式计算-后缀表达式实现）
 
-【问题描述】
+### 问题描述
 
 从标准输入中读入一个整数算术运算表达式，如24 / ( 1 + 2 + 36 / 6 / 2 - 2) * ( 12 / 2 / 2 )= ，计算表达式结果，并输出。
 
@@ -143,31 +148,33 @@ printf("{ hello world }d\n"); /* }*/
 4. 要求采用逆波兰表达式来实现表达式计算。
 
 
-【输入形式】
+### 输入形式
 
 从键盘输入一个以=结尾的整数算术运算表达式。操作符和操作数之间可以有空格分隔。
 
-【输出形式】
+### 输出形式
 
 在屏幕上输出计算结果（为整数，即在计算过程中除法为整除）。
 
-【样例输入】
+### 样例输入
+
 ```
 24 / ( 1 + 2 + 36 / 6 / 2 - 2) * ( 12 / 2 / 2 )     =
 ```
 
-【样例输出】
+### 样例输出
+
 ```
 18
 ```
 
-【样例说明】
+### 样例说明
 
 按照运算符及括号优先级依次计算表达式的值。
 
-银行排队模拟（生产者-消费者模拟）
+## 银行排队模拟（生产者-消费者模拟）
 
-【问题描述】
+### 问题描述
 
 一个系统模仿另一个系统行为的技术称为模拟，如飞行模拟器。模拟可以用来进行方案论证、人员培训和改进服务。计算机技术常用于模拟系统中。
 
@@ -185,7 +192,7 @@ printf("{ hello world }d\n"); /* }*/
 
 本问题中假设对公和对外币服务窗口在改为对私服务时及服务期间没有相应因公或外币服务新客户到达（即正好空闲），同时要求以增加成本或影响最小为前提，来尽最大可能减少对私服务客户等待时间。
 
-【输入形式】
+### 输入形式
 
 首先输入一个整数表示时间周期数，然后再依次输入每个时间周期中因私业务的客户数。注：一个时间周期指的是银行处理一笔业务的平均处理时间，可以是一分钟、三分钟或其它。例如：
 
@@ -196,7 +203,7 @@ printf("{ hello world }d\n"); /* }*/
 
 说明：表明在6个时间周期内，第1个周期来了2个（序号分别为1,2），第2个来了5人（序号分别为3,4,5,6,7），以此类推。
 
-【输出形式】
+### 输出形式
 
 每个客户等待服务的时间周期数。输出形式如下：
 
@@ -204,15 +211,14 @@ printf("{ hello world }d\n"); /* }*/
 
 说明：客户序号与等待周期数之间用符号:分隔，冒号（:）两边各有一个空格，等待周期数后直接为回车。
 
-【样例输入】
+### 样例输入
 
 ```
 4
 2  5  13  11
 ```
 
-
-【样例输出】
+### 样例输出
 
 ```
 1 : 0
@@ -248,6 +254,123 @@ printf("{ hello world }d\n"); /* }*/
 31 : 7
 ```
 
-【样例说明】
+### 样例说明
 
 样例输入表明有四个时间周期，第一个周期来了2人（序号1-2）；第二个周期来了5人（序号3-7）；第三个周期来了13人（序号8-20）；第四个周期来了11人（序号21-31）。由于第一个时间周期内只来了2人，银行（有三个服务窗口）能及时提供服务，因此客户等待时间为0；第二个时间周期内来了5人，银行一个周期内一次只能服务3人，另有2个在下个周期内服务，因此等待时间为1，其它类推。
+
+### Solution
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct user
+{
+    int id;
+    int wait_time;
+};
+int tot_time;
+
+int tot_users=0;
+int num_window=3;
+
+struct myQueue
+{
+    struct user *queue;
+    int cap;
+    int front,rear;
+};
+
+void myQueue_push(struct myQueue *self,int id)
+{
+    self->rear++;
+    if(self->rear>=self->cap)
+    {
+        self->cap*=2;
+        self->queue=realloc(self->queue,self->cap*sizeof(struct user));
+    }
+
+    self->queue[self->rear].id=id;
+    self->queue[self->rear].wait_time=0;
+}
+void myQueue_pop(struct myQueue *self)
+{
+    self->front++;
+    printf("%d : %d\n",self->queue[self->front].id,self->queue[self->front].wait_time);
+}
+int myQueue_size(struct myQueue *self)
+{
+    return self->rear-self->front;
+}
+int myQueue_empty(struct myQueue *self)
+{
+    return self->rear==self->front;
+}
+void myQueue_new(struct myQueue *self)
+{
+    self->cap=16;
+    self->front=0;
+    self->rear=0;
+    self->queue=calloc(self->cap,sizeof(struct user));
+}
+
+void process(struct myQueue *queue)
+{
+    int i;
+    for(i=0; i<num_window; i++)
+    {
+        if(myQueue_size(queue)>0)
+            myQueue_pop(queue);
+    }
+
+    for(i=queue->front+1;i<=queue->rear;i++)
+    {
+        queue->queue[i].wait_time++;
+    }
+
+    if(num_window>3 && myQueue_size(queue)/num_window<7)
+        num_window--;
+
+}
+int main()
+{
+    struct myQueue *queue;
+    queue=malloc(sizeof(struct myQueue));
+
+    myQueue_new(queue);
+
+    register int i;
+    scanf("%d",&tot_time);
+    for(i=1; i<=tot_time; i++)
+    {
+        int num_user;
+        scanf("%d",&num_user);
+        register int j;
+        for(j=1; j<=num_user; j++)
+        {
+            tot_users++;
+            myQueue_push(queue,tot_users);
+        }
+        do
+        {
+            if(myQueue_size(queue)/num_window>=7)
+            {
+                if(myQueue_size(queue)/(num_window+1)<7 && num_window<5)
+                {
+                    num_window++;
+                }
+                else
+                {
+                    num_window=5;
+                }
+            }
+        }
+        while(0);
+        process(queue);
+    }
+
+    while(myQueue_size(queue)>0)
+        process(queue);
+    return 0;
+}
+```
