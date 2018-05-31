@@ -1,7 +1,9 @@
 ---
 title: 数据结构第5次作业
+date: 2018-05-31 21:24:41
 tags:
 ---
+
 
 ## 栈操作（栈-基本题）
 ### 问题描述
@@ -132,6 +134,135 @@ printf("{ hello world }d\n"); /* }*/
 
 样例2：处理之后的括号序列是（）{（），在最后缺少了右大括号，那么应该输出与之相对应的左括号不匹配。
 
+```C
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+char line[4096];
+char stack[1024];
+int stack2[1024];
+int top=0;
+int is_leftp(char c)
+{
+    return c=='('||c=='{';
+}
+int is_rightp(char c)
+{
+    return c==')'||c=='}';
+}
+int is_match(char a,char b)
+{
+    return (a=='(' && b==')')||(a=='{' && b=='}');
+}
+char get_left(char x)
+{
+    assert(x==')'||x=='}');
+    if(x==')')
+        return '(';
+    if(x=='}')
+        return '}';
+    return 0;
+}
+char matched[1024];
+int sz_matched=0;
+int main()
+{
+    freopen("example.c","r",stdin);
+    int tot_lines=0;
+    int in_comment1=0; // "//"
+    int in_comment2=0; // "/* */"
+    int in_quote=0; // "
+    int i;
+    while(fgets(line,4096,stdin))
+    {
+        tot_lines++;
+        int n=strlen(line);
+        int i;
+        for(i=0; i<n; i++)
+        {
+
+            if(line[i]=='\"') //skip ""
+            {
+                int j;
+                for(j=i+1; j<n; j++)
+                {
+                    if(line[j]=='\"')
+                        break;
+                }
+                if(j<n)
+                {
+                    i=j;
+                }
+            }
+            if(line[i]=='\'') //skip ''
+            {
+                int j;
+                for(j=i+1; j<n; j++)
+                {
+                    if(line[j]=='\'')
+                        break;
+                }
+                if(j<n)
+                {
+                    i=j;
+                }
+            }
+            if(i+1<n && line[i]=='/' && line[i+1]=='/')
+            {
+                in_comment2=1;
+                break;
+            }
+            if(i+1<n && line[i]=='/' && line[i+1]=='*')
+            {
+                in_comment1=1;
+                continue;
+            }
+            if(i+1<n && line[i+1]=='/' && line[i]=='*')
+            {
+                in_comment1=0;
+            }
+            if(in_comment1)
+                continue;
+            if(is_leftp(line[i]))
+            {
+                ++top;
+                stack[top]=line[i];
+                stack2[top]=tot_lines;
+                matched[sz_matched++]=line[i];
+            }
+            else if(is_rightp(line[i]))
+            {
+                if(!is_match(stack[top],line[i]))
+                {
+                    printf("without maching '%c' at line %d\n",line[i],tot_lines);
+                    goto on_failure;
+                }
+                if(top<=0)
+                {
+                    printf("without maching '%c' at line %d\n",get_left(line[i]),stack2[top]);
+                    goto on_failure;
+                }
+                top--;
+                matched[sz_matched++]=line[i];
+            }
+
+        }
+
+    }
+    if(top>0)
+    {
+        printf("without maching '%c' at line %d\n",stack[top],stack2[top]);
+        goto on_failure;
+    }
+    matched[sz_matched]=0;
+    printf("%s\n",matched);
+    return 0;
+on_failure:
+    return 0;
+}
+```
+
 ## 计算器（表达式计算-后缀表达式实现）
 
 ### 问题描述
@@ -171,6 +302,126 @@ printf("{ hello world }d\n"); /* }*/
 ### 样例说明
 
 按照运算符及括号优先级依次计算表达式的值。
+
+### Solution
+
+```C
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+
+char expr[4096];
+int num[4096],top=0;
+int op[4096],top2=0;
+#define push(x) do{num[++top]=x;}while(0);
+int isop(char ch)
+{
+    return ch=='+'||ch=='-'||ch=='*'||ch=='/';
+}
+void print_num()
+{
+    int i;
+    for(i=0; i<top; i++)
+    {
+        printf("%d ",num[i]);
+    }
+}
+void print_op()
+{
+    int i;
+    for(i=0; i<top2; i++)
+    {
+        printf("%c ",op[i]);
+    }
+}
+void process()
+{
+    char o=op[top2--];
+    int b=num[top--];
+    int a=num[top--];
+    if(o=='+')
+    {
+        num[++top]=a+b;
+    }
+    else if(o=='-')
+    {
+        num[++top]=a-b;
+    }
+    else if(o=='*')
+    {
+        num[++top]=a*b;
+    }
+    else if(o=='/')
+    {
+        num[++top]=a/b;
+    }
+}
+int main()
+{
+    fgets(expr,4096,stdin);
+    int i=0,n=strlen(expr);
+    while(i<n)
+    {
+        if(expr[i]<=' ')
+        {
+            ++i;
+            continue;
+        }
+        if(expr[i]=='*'||expr[i]=='/')
+        {
+            while(top2 && (op[top2]=='/'||op[top2]=='*'))
+            {
+                process();
+            }
+            op[++top2]=expr[i];
+        }
+        else if(expr[i]=='+'||expr[i]=='-')
+        {
+            while(top2 && isop(op[top2]))
+            {
+                process();
+            }
+            op[++top2]=expr[i];
+        }
+        else if(expr[i]=='(')
+        {
+            op[++top2]=expr[i];
+        }
+        else if(expr[i]==')')
+        {
+            while(top2 && op[top2]!='(')
+            {
+                process();
+            }
+            if(op[top2]=='(')
+                top2--;
+        }
+        else if(expr[i]>='0' && expr[i]<='9')
+        {
+            int x=0;
+            while(expr[i]>='0' && expr[i]<='9')
+            {
+                x=x*10+expr[i]-'0';
+                i++;
+            }
+            num[++top]=x;
+            continue;
+        }
+        else if(expr[i]=='=')
+        {
+            while(top2 && isop(op[top2]))
+            {
+                process();
+            }
+            break;
+        }
+        i++;
+    }
+    printf("%d\n",num[top]);
+    return 0;
+}
+```
 
 ## 银行排队模拟（生产者-消费者模拟）
 
