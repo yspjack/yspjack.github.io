@@ -1,8 +1,8 @@
 ---
-title: 数据结构第4次作业
+title: 数据结构第4次作业(链表)
 mathjax: true
 date: 2018-05-17 22:10:25
-tags:
+tags: [数据结构]
 ---
 
 
