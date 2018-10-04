@@ -1,5 +1,5 @@
 ---
-title: 随机文本生成器
+title: 数据结构大作业：随机文本生成器
 tags:
 ---
 
@@ -10,6 +10,8 @@ tags:
 有一种基于马尔可夫链（Markov Chain）算法的随机文本生成方法，它利用任何一个现有的某种语言的文本（如一本英文小说），可以构造出由这个文本中的语言使用情况而形成的统计模型，并通过该模型生成的随机文本将具有与原文本类似的统计性质（即具有类似写作风格）。
 
 该算法的基本原理是将输入看成是由一些互相重叠的短语构成的序列，其将每个短语分割为两个部分：一部分是由多个词构成的前缀，另一部分是只包含一个词的后缀。在生成文本时依据原文本的统计性质（即前缀确定的情况下，得到所有可能的后缀），随机地选择某前缀后面的特定后缀。在此，假设前缀长度为两个单词，则马尔可夫链（Markov Chain）随机文本生成算法如下：
+
+<!--more-->
 
 ```
 设w1和w2为文本的前两个词
@@ -122,3 +124,15 @@ In love and cooking, you must give 100% effort - but expect little appreciation.
 当前目录下所生成的文件`markov.txt`中内容如下：
 
 > I will give you some advice about life. Eat more roughage; Do more than others expect you to do and do it pains; Remember what life tells you; do not take to heart every thing you hear. do not take to heart every thing you hear. do not spend all that you have. do not sleep as long as you want; Whenever you find your wrongdoing, be quick with reparation! Whenever you find your wrongdoing, be quick with reparation! Whenever you find your wrongdoing, be quick with reparation! Whenever you find your wrongdoing, be quick with reparation! Whenever you say "I am sorry", please look into the other person's eyes; Whenever you say "I am sorry", please look into the other person's eyes; Whenever you make a phone call smil when you pick up the phone, because someone feel it! Understand rules completely and change them reasonably; Remember, the best love is to love others unconditionally rather than make demands on them; Comment on the success you have attained by looking in the past at the target you wanted to achieve most; In love and cooking, you must give 100% effort - but expect little appreciation.
+
+### 样例输入2
+
+{% asset_link article.txt article.txt %}
+
+从标准输入中输入的单词个数为：
+
+1000000
+
+### 样例输出2
+
+{% asset_link markov.txt markov.txt %}

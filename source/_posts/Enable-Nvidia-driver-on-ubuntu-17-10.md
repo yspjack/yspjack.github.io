@@ -1,39 +1,60 @@
 ---
 title: Enable Nvidia driver on ubuntu 17.10
 date: 2018-01-25 09:37:23
-tags: nvidia driver ubuntu
+tags: [nvidia driver,ubuntu]
 ---
+
+# Update
+
+Since Ubuntu 18.04 LTS is released, this article may be out of date.
+
+## 原文
+
 Ubuntu 17.10更新使用了Wayland作为默认显示服务器，并用gdm3代替了lightdm。但这些更新可能导致Intel+Nvidia显卡的电脑（例如笔者的电脑）不能使用nvidia驱动进入桌面。本文简要介绍了如何重新启用nvidia驱动进入桌面。
 
 <!--more-->
+
 ### 写在前面
+
 首先进入BIOS设置，关闭安全启动(Secure Boot)
 打开终端模拟器的快捷键一般是`Ctrl+Alt+T`
 
 ### 卸载之前安装的nvidia驱动
+
 ```bash
 sudo apt purge nvidia-*
 ```
+
 ### 安装驱动nvidia-384
+
 ```bash
 sudo apt update
 sudo apt install nvidia-384
 ```
+
 ### 选择使用nvidia显卡
+
 ```bash
 sudo prime-select nvidia
 ```
+
 ### 重启桌面环境
+
 首先注销(logout)当前用户，然后进入tty(例如tty3 `Ctrl+Alt+F3`)，登录（注意小键盘此时没有num lock）。
+
 ```bash
 sudo service gdm3 restart
 ```
+
 接着电脑可能会卡死1分钟左右，然后出现登录界面。
 登录后，打开终端模拟器，验证nvidia驱动是否正常工作。
+
 ```bash
 nvidia-smi
 ```
+
 如果正常，结果应该是类似这样的：
+
 ```
 Thu Jan 25 10:00:31 2018
 +-----------------------------------------------------------------------------+

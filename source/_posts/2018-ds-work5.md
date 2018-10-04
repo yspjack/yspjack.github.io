@@ -1,0 +1,627 @@
+---
+title: 数据结构第5次作业(栈,队列)
+date: 2018-05-31 21:24:41
+tags: [数据结构]
+---
+
+
+## 栈操作（栈-基本题）
+### 问题描述
+
+假设给定的整数栈初始状态为空，栈的最大容量为100。从标准输入中输入一组栈操作，按操作顺序输出出栈元素序列。栈操作：1表示入栈操作，后跟一个整数（不为1、0和-1）为入栈元素；0表示出栈操作；-1表示操作结束。
+
+### 输入形式
+
+从标准输入读取一组栈操作，入栈的整数和表示栈操作的整数之间都以一个空格分隔。
+
+### 输出形式
+
+在一行上按照操作的顺序输出出栈元素序列，以一个空格分隔各元素，最后一个元素后也要有一个空格。如果栈状态为空时进行出栈操作，或栈满时进行入栈操作，则输出字符串“error”，并且字符串后也要有一空格。所有操作都执行完后，栈也有可能不为空。
+
+<!--more-->
+
+### 样例输入
+
+```
+1 3 1 5 1 7 0 0 1 8 0 1 12 1 13 0 0 0 0 1 90 1 89 0 -1
+```
+
+### 样例输出
+
+```
+7 5 8 13 12 3 error 89
+```
+
+### 样例说明
+
+入栈元素依次为3、5、7，然后有两次出栈动作，所以先输出7和5，这时栈中只有元素3；之后元素8入栈，又出栈，输出8；随后元素12和13入栈，再进行4次出栈操作，输出13、12和3，这时栈为空，再进行出栈操作会输出error；最后90和89入栈，进行一次出栈操作，输出89，栈中剩余1个元素。
+
+### 评分标准
+
+该题要求按照操作的顺序输出出栈元素序列，提交程序名为stack.c。
+
+## C程序括号匹配检查
+
+### 问题描述
+
+编写一程序检查C源程序文件中{}、()等括号是否匹配,并输出第一个检测到的不匹配的括号及所对应括号所在的行号（程序中只有一个括号不匹配）。
+
+注意：
+
+1. 除了括号可能不匹配外，输入的C源程序无其它语法错误；
+
+2. 字符常量、字符串常量及注释中括号不应被处理，注释包括单行注释//和多行/* */注释
+
+3. 字符和字符串常量中不包含特殊的转义字符（\\',\\"）
+
+4. 程序中出现有意义括号的个数不超过200个
+
+不匹配判断规则：
+
+1. 当遇到一个不匹配的右括号（')'或'}'）时，输出该右括号及所在行号；
+
+2. 当程序处理完毕时，还存在不匹配的左括号时，输出该左括号及所在行号。
+
+### 输入形式
+
+打开当前目录下文件example.c，查体其括号是否匹配。
+
+### 输出形式
+
+若存在括号不匹配时，应输出首先能判断出现不匹配的括号及其所在的行号。当出现括号不匹配时，按下面要求输出相关信息：
+
+`without maching <x> at line <n>`
+
+其中`<x>`为‘{’, ‘}’， ‘(’, ‘)’等符号，`<n>`为该符号所在的行号。
+
+若整个程序括号匹配，则按下面所示顺序输出括号匹配情况，中间没有空格。
+
+`(){(()){}}`
+
+### 样例输入1
+
+若当前目录下输入文件example.c中内容如下：
+
+```c
+#include<stdio.h>
+int main(){
+printf("{ hello world }\n"); // }
+)
+```
+
+### 样例输出1
+
+```
+without maching ')' at line 4
+```
+
+### 样例输入2
+
+若当前目录下输入文件example.c中内容如下：
+
+```c
+#include<stdio.h>
+int main(){
+printf("{ hello world }d\n"); /* }*/
+```
+
+### 样例输出2
+
+```
+without maching '{' at line 2
+```
+
+### 样例输入3
+
+若当前目录下输入文件example.c中内容如下：
+
+```c
+#include<stdio.h>
+int main(){
+printf("{ hello world }d\n"); /* }*/
+}
+```
+
+### 样例输出3
+
+```
+(){()}
+```
+
+### 样例说明
+
+样例1：在注释部分和字符串中的括号不考虑，在将程序处理之后得到的括号序列是（）{（）），遇到右括号时与最近的左括号匹配，发现最后一个小括号和大括号不匹配。
+
+样例2：处理之后的括号序列是（）{（），在最后缺少了右大括号，那么应该输出与之相对应的左括号不匹配。
+
+```C
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+char line[4096];
+char stack[1024];
+int stack2[1024];
+int top=0;
+int is_leftp(char c)
+{
+    return c=='('||c=='{';
+}
+int is_rightp(char c)
+{
+    return c==')'||c=='}';
+}
+int is_match(char a,char b)
+{
+    return (a=='(' && b==')')||(a=='{' && b=='}');
+}
+char get_left(char x)
+{
+    assert(x==')'||x=='}');
+    if(x==')')
+        return '(';
+    if(x=='}')
+        return '}';
+    return 0;
+}
+char matched[1024];
+int sz_matched=0;
+int main()
+{
+    freopen("example.c","r",stdin);
+    int tot_lines=0;
+    int in_comment1=0; // "//"
+    int in_comment2=0; // "/* */"
+    int in_quote=0; // "
+    int i;
+    while(fgets(line,4096,stdin))
+    {
+        tot_lines++;
+        int n=strlen(line);
+        int i;
+        for(i=0; i<n; i++)
+        {
+
+            if(line[i]=='\"') //skip ""
+            {
+                int j;
+                for(j=i+1; j<n; j++)
+                {
+                    if(line[j]=='\"')
+                        break;
+                }
+                if(j<n)
+                {
+                    i=j;
+                }
+            }
+            if(line[i]=='\'') //skip ''
+            {
+                int j;
+                for(j=i+1; j<n; j++)
+                {
+                    if(line[j]=='\'')
+                        break;
+                }
+                if(j<n)
+                {
+                    i=j;
+                }
+            }
+            if(i+1<n && line[i]=='/' && line[i+1]=='/')
+            {
+                in_comment2=1;
+                break;
+            }
+            if(i+1<n && line[i]=='/' && line[i+1]=='*')
+            {
+                in_comment1=1;
+                continue;
+            }
+            if(i+1<n && line[i+1]=='/' && line[i]=='*')
+            {
+                in_comment1=0;
+            }
+            if(in_comment1)
+                continue;
+            if(is_leftp(line[i]))
+            {
+                ++top;
+                stack[top]=line[i];
+                stack2[top]=tot_lines;
+                matched[sz_matched++]=line[i];
+            }
+            else if(is_rightp(line[i]))
+            {
+                if(!is_match(stack[top],line[i]))
+                {
+                    printf("without maching '%c' at line %d\n",line[i],tot_lines);
+                    goto on_failure;
+                }
+                if(top<=0)
+                {
+                    printf("without maching '%c' at line %d\n",get_left(line[i]),stack2[top]);
+                    goto on_failure;
+                }
+                top--;
+                matched[sz_matched++]=line[i];
+            }
+
+        }
+
+    }
+    if(top>0)
+    {
+        printf("without maching '%c' at line %d\n",stack[top],stack2[top]);
+        goto on_failure;
+    }
+    matched[sz_matched]=0;
+    printf("%s\n",matched);
+    return 0;
+on_failure:
+    return 0;
+}
+```
+
+## 计算器（表达式计算-后缀表达式实现）
+
+### 问题描述
+
+从标准输入中读入一个整数算术运算表达式，如24 / ( 1 + 2 + 36 / 6 / 2 - 2) * ( 12 / 2 / 2 )= ，计算表达式结果，并输出。
+
+要求：
+
+1. 表达式运算符只有+、-、*、/，表达式末尾的=字符表示表达式输入结束，表达式中可能会出现空格；
+2. 表达式中会出现圆括号，括号可能嵌套，不会出现错误的表达式；
+
+3. 出现除号/时，以整数相除进行运算，结果仍为整数，例如：5/3结果应为1。
+
+4. 要求采用逆波兰表达式来实现表达式计算。
+
+
+### 输入形式
+
+从键盘输入一个以=结尾的整数算术运算表达式。操作符和操作数之间可以有空格分隔。
+
+### 输出形式
+
+在屏幕上输出计算结果（为整数，即在计算过程中除法为整除）。
+
+### 样例输入
+
+```
+24 / ( 1 + 2 + 36 / 6 / 2 - 2) * ( 12 / 2 / 2 )     =
+```
+
+### 样例输出
+
+```
+18
+```
+
+### 样例说明
+
+按照运算符及括号优先级依次计算表达式的值。
+
+### Solution
+
+```C
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+
+char expr[4096];
+int num[4096],top=0;
+int op[4096],top2=0;
+#define push(x) do{num[++top]=x;}while(0);
+int isop(char ch)
+{
+    return ch=='+'||ch=='-'||ch=='*'||ch=='/';
+}
+void print_num()
+{
+    int i;
+    for(i=0; i<top; i++)
+    {
+        printf("%d ",num[i]);
+    }
+}
+void print_op()
+{
+    int i;
+    for(i=0; i<top2; i++)
+    {
+        printf("%c ",op[i]);
+    }
+}
+void process()
+{
+    char o=op[top2--];
+    int b=num[top--];
+    int a=num[top--];
+    if(o=='+')
+    {
+        num[++top]=a+b;
+    }
+    else if(o=='-')
+    {
+        num[++top]=a-b;
+    }
+    else if(o=='*')
+    {
+        num[++top]=a*b;
+    }
+    else if(o=='/')
+    {
+        num[++top]=a/b;
+    }
+}
+int main()
+{
+    fgets(expr,4096,stdin);
+    int i=0,n=strlen(expr);
+    while(i<n)
+    {
+        if(expr[i]<=' ')
+        {
+            ++i;
+            continue;
+        }
+        if(expr[i]=='*'||expr[i]=='/')
+        {
+            while(top2 && (op[top2]=='/'||op[top2]=='*'))
+            {
+                process();
+            }
+            op[++top2]=expr[i];
+        }
+        else if(expr[i]=='+'||expr[i]=='-')
+        {
+            while(top2 && isop(op[top2]))
+            {
+                process();
+            }
+            op[++top2]=expr[i];
+        }
+        else if(expr[i]=='(')
+        {
+            op[++top2]=expr[i];
+        }
+        else if(expr[i]==')')
+        {
+            while(top2 && op[top2]!='(')
+            {
+                process();
+            }
+            if(op[top2]=='(')
+                top2--;
+        }
+        else if(expr[i]>='0' && expr[i]<='9')
+        {
+            int x=0;
+            while(expr[i]>='0' && expr[i]<='9')
+            {
+                x=x*10+expr[i]-'0';
+                i++;
+            }
+            num[++top]=x;
+            continue;
+        }
+        else if(expr[i]=='=')
+        {
+            while(top2 && isop(op[top2]))
+            {
+                process();
+            }
+            break;
+        }
+        i++;
+    }
+    printf("%d\n",num[top]);
+    return 0;
+}
+```
+
+## 银行排队模拟（生产者-消费者模拟）
+
+### 问题描述
+
+一个系统模仿另一个系统行为的技术称为模拟，如飞行模拟器。模拟可以用来进行方案论证、人员培训和改进服务。计算机技术常用于模拟系统中。
+
+生产者-消费者（Server-Custom）是常见的应用模式，见于银行、食堂、打印机、医院、超等提供服务和使用服务的应用中。这类应用的主要问题是消费者如果等待（排队）时间过长，会引发用户抱怨，影响服务质量；如果提供服务者（服务窗口）过多，将提高运管商成本。（经济学中排队论）
+
+假设某银行网点有五个服务窗口，分别为三个对私、一个对公和一个外币窗口。银行服务的原则是先来先服务。通常对私业务人很多，其它窗口人则较少，可临时改为对私服务。假设当对私窗口等待服务的客户（按实际服务窗口）平均排队人数超过（大于或等于）7人时，等待客户将可能有抱怨，影响服务质量，此时银行可临时将其它窗口中一个或两个改为对私服务，当客户少于7人时，将立即恢复原有业务。设计一个程序用来模拟银行服务。
+
+说明：
+
+1. 增加服务窗口将会增加成本或影响其它业务，因此，以成本增加或影响最小为原则来增加服务窗口，即如果增加一个窗口就能使得按窗口平均等待服务人数小于7人，则只增加一个窗口。一旦按窗口平均等待服务人数小于7人，就减少一个所增加的窗口。
+
+2. 为了简化问题，假设新到客户是在每个服务周期开始时到达。
+
+3. 当等待服务人数发生变化时（新客户到达或有客户已接受服务），则及时计算按实际服务窗口平均等待服务人数，并按相应策略调整服务窗口数（增加或减少额外的服务窗口，但对私窗口不能减少）。注意：只在获取新客户（不管到达新客户数是否为0）时或已有客户去接受服务时，才按策略调整服务窗口数。进一步讲，增加服务窗口只在有客户到达的周期内进行（也就是说增加窗口是基于客户的感受，银行对增加窗口是不情愿的，因为要增加成本，一旦不再有新客户来，银行是不会再增加服务窗口的）；一旦有客户去接受服务（即等待客户减少），银行将根据策略及时减少服务窗口，因此，在每个周期内，有客户去接受服务后要马上判断是否减少服务窗口（因为能减少成本，银行是积极的）
+
+本问题中假设对公和对外币服务窗口在改为对私服务时及服务期间没有相应因公或外币服务新客户到达（即正好空闲），同时要求以增加成本或影响最小为前提，来尽最大可能减少对私服务客户等待时间。
+
+### 输入形式
+
+首先输入一个整数表示时间周期数，然后再依次输入每个时间周期中因私业务的客户数。注：一个时间周期指的是银行处理一笔业务的平均处理时间，可以是一分钟、三分钟或其它。例如：
+
+```
+6
+2  5  13  11  15   9
+```
+
+说明：表明在6个时间周期内，第1个周期来了2个（序号分别为1,2），第2个来了5人（序号分别为3,4,5,6,7），以此类推。
+
+### 输出形式
+
+每个客户等待服务的时间周期数。输出形式如下：
+
+用户序号 : 等待周期数
+
+说明：客户序号与等待周期数之间用符号:分隔，冒号（:）两边各有一个空格，等待周期数后直接为回车。
+
+### 样例输入
+
+```
+4
+2  5  13  11
+```
+
+### 样例输出
+
+```
+1 : 0
+2 : 0
+3 : 0
+4 : 0
+5 : 0
+6 : 1
+7 : 1
+8 : 0
+9 : 1
+10 : 1
+11 : 1
+12 : 1
+13 : 2
+14 : 2
+15 : 2
+16 : 3
+17 : 3
+18 : 3
+19 : 4
+20 : 4
+21 : 3
+22 : 4
+23 : 4
+24 : 4
+25 : 5
+26 : 5
+27 : 5
+28 : 6
+29 : 6
+30 : 6
+31 : 7
+```
+
+### 样例说明
+
+样例输入表明有四个时间周期，第一个周期来了2人（序号1-2）；第二个周期来了5人（序号3-7）；第三个周期来了13人（序号8-20）；第四个周期来了11人（序号21-31）。由于第一个时间周期内只来了2人，银行（有三个服务窗口）能及时提供服务，因此客户等待时间为0；第二个时间周期内来了5人，银行一个周期内一次只能服务3人，另有2个在下个周期内服务，因此等待时间为1，其它类推。
+
+### Solution
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct user
+{
+    int id;
+    int wait_time;
+};
+int tot_time;
+
+int tot_users=0;
+int num_window=3;
+
+struct myQueue
+{
+    struct user *queue;
+    int cap;
+    int front,rear;
+};
+
+void myQueue_push(struct myQueue *self,int id)
+{
+    self->rear++;
+    if(self->rear>=self->cap)
+    {
+        self->cap*=2;
+        self->queue=realloc(self->queue,self->cap*sizeof(struct user));
+    }
+
+    self->queue[self->rear].id=id;
+    self->queue[self->rear].wait_time=0;
+}
+void myQueue_pop(struct myQueue *self)
+{
+    self->front++;
+    printf("%d : %d\n",self->queue[self->front].id,self->queue[self->front].wait_time);
+}
+int myQueue_size(struct myQueue *self)
+{
+    return self->rear-self->front;
+}
+int myQueue_empty(struct myQueue *self)
+{
+    return self->rear==self->front;
+}
+void myQueue_new(struct myQueue *self)
+{
+    self->cap=16;
+    self->front=0;
+    self->rear=0;
+    self->queue=calloc(self->cap,sizeof(struct user));
+}
+
+void process(struct myQueue *queue)
+{
+    int i;
+    for(i=0; i<num_window; i++)
+    {
+        if(myQueue_size(queue)>0)
+            myQueue_pop(queue);
+    }
+
+    for(i=queue->front+1;i<=queue->rear;i++)
+    {
+        queue->queue[i].wait_time++;
+    }
+
+    if(num_window>3 && myQueue_size(queue)/num_window<7)
+        num_window--;
+
+}
+int main()
+{
+    struct myQueue *queue;
+    queue=malloc(sizeof(struct myQueue));
+
+    myQueue_new(queue);
+
+    register int i;
+    scanf("%d",&tot_time);
+    for(i=1; i<=tot_time; i++)
+    {
+        int num_user;
+        scanf("%d",&num_user);
+        register int j;
+        for(j=1; j<=num_user; j++)
+        {
+            tot_users++;
+            myQueue_push(queue,tot_users);
+        }
+        do
+        {
+            if(myQueue_size(queue)/num_window>=7)
+            {
+                if(myQueue_size(queue)/(num_window+1)<7 && num_window<5)
+                {
+                    num_window++;
+                }
+                else
+                {
+                    num_window=5;
+                }
+            }
+        }
+        while(0);
+        process(queue);
+    }
+
+    while(myQueue_size(queue)>0)
+        process(queue);
+    return 0;
+}
+```
