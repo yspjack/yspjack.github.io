@@ -133,7 +133,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -189,7 +189,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/14/Fix-Intel-VMD/" class="post-title-link" itemprop="url">Fix Intel VMD or RST</a>
+          <a href="/2022/06/14/Fix-Intel-VMD/" class="post-title-link" itemprop="url">修复 Intel VMD(Intel RST) 导致的问题</a>
         </h2>
 
         <div class="post-meta-container">
@@ -201,7 +201,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-06-14 18:26:17 / 修改时间：20:23:22" itemprop="dateCreated datePublished" datetime="2022-06-14T18:26:17+08:00">2022-06-14</time>
+      <time title="创建时间：2022-06-14 18:26:17 / 修改时间：21:38:27" itemprop="dateCreated datePublished" datetime="2022-06-14T18:26:17+08:00">2022-06-14</time>
     </span>
 
   
@@ -214,46 +214,28 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="修复-intel-vmdintel-rst-导致的问题">修复 Intel VMD(Intel RST)
-导致的问题</h1>
-<h2 id="问题描述">问题描述</h2>
+          <h1 id="问题描述">问题描述</h1>
 <p>最新一代Intel CPU的笔记本电脑默认开启Intel Volume Management Device
 (VMD)，导致以下问题：</p>
 <ul>
 <li>安装Windows 10时找不到磁盘驱动器</li>
 <li>Windows启动时蓝屏（错误代码：Inaccessible_Boot_Device）</li>
 </ul>
-<h2 id="修复">修复</h2>
-<h3 id="获取驱动程序">获取驱动程序</h3>
-<p>个人推荐从笔记本电脑的品牌官方网站下载驱动，而不是从Intel下载。
-以华硕笔记本为例：</p>
-<figure>
-<img src="asus.png" alt="华硕笔记本的下载页面" />
-<figcaption aria-hidden="true">华硕笔记本的下载页面</figcaption>
-</figure>
-<h3 id="安装驱动">安装驱动</h3>
-<h4 id="正在安装windows">正在安装Windows</h4>
-<p>在安装过程中加载相对应的Intel
-VMD驱动程序即可。网络上已经有很多详细教程。</p>
-<p><img src="57787_image2.png" alt="Intel的教程" /> (图片来自 <a
-target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/support/articles/000057787/memory-and-storage/intel-optane-memory.html">www.intel.com/content/www/us/en/support/articles/000057787/memory-and-storage/intel-optane-memory.html</a>)</p>
-<h4 id="已安装windows">已安装Windows</h4>
-<p>使用Dism++（图形化界面，推荐使用），或者以<strong>管理员权限</strong>运行DISM命令，离线安装驱动：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DISM.exe /Image:X:\Windows /<span class="built_in">Add-Driver</span> /Driver:D:\Drivers /recurse</span><br></pre></td></tr></table></figure>
-<h3 id="修改驱动加载设置">修改驱动加载设置</h3>
-<p>打开<code>regedit</code></p>
-<p>选择<code>HKEY_LOCAL_MACHINE</code>，菜单选择文件-加载配置单元。</p>
-<p><img src="regedit-load.png" /></p>
-<p>选择<code>X:\Windows\System32\config\SYSTEM</code>文件，项名称输入<code>win10</code></p>
-<p>定位到<code>HKEY_LOCAL_MACHINE\win10\ControlSet001\Services\iaStorVD</code>，
-把<code>Start</code>值(类型为REG_DWORD)改成0，如果有<code>StartOverride</code>项，则删掉该项。</p>
-<p>定位到<code>HKEY_LOCAL_MACHINE\win10\ControlSet001\Services\iaStorAVC</code>和
-把<code>Start</code>值改成0，添加<code>StartOverride</code>项，设置如下。</p>
-<p><img src="iaStorAVC.png" /></p>
-<p><code>HKEY_LOCAL_MACHINE\win10\ControlSet001\Services\stornvme</code>设置如下。</p>
-<p><img src="stornvme.png" /></p>
-<p>修改后，卸载配置单元。</p>
-
+<h1 id="修复">修复</h1>
+<p>步骤：</p>
+<ul>
+<li>获取驱动程序</li>
+<li>安装驱动</li>
+<li>修改驱动加载设置</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/14/Fix-Intel-VMD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -315,7 +297,7 @@ target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/sup
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-14 18:30:42" itemprop="dateModified" datetime="2022-06-14T18:30:42+08:00">2022-06-14</time>
+      <time title="修改时间：2022-06-14 21:39:12" itemprop="dateModified" datetime="2022-06-14T21:39:12+08:00">2022-06-14</time>
     </span>
 
   
@@ -384,9 +366,15 @@ target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/sup
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-04-01 01:04:58 / 修改时间：01:07:06" itemprop="dateCreated datePublished" datetime="2022-04-01T01:04:58+08:00">2022-04-01</time>
+      <time title="创建时间：2022-04-01 01:04:58" itemprop="dateCreated datePublished" datetime="2022-04-01T01:04:58+08:00">2022-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-14 21:34:14" itemprop="dateModified" datetime="2022-06-14T21:34:14+08:00">2022-06-14</time>
     </span>
 
   
@@ -465,9 +453,15 @@ GRUB</h2>
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-04-01 00:53:53 / 修改时间：01:07:49" itemprop="dateCreated datePublished" datetime="2022-04-01T00:53:53+08:00">2022-04-01</time>
+      <time title="创建时间：2022-04-01 00:53:53" itemprop="dateCreated datePublished" datetime="2022-04-01T00:53:53+08:00">2022-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-14 21:34:22" itemprop="dateModified" datetime="2022-06-14T21:34:22+08:00">2022-06-14</time>
     </span>
 
   
@@ -552,7 +546,7 @@ GRUB</h2>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-31 23:38:10" itemprop="dateModified" datetime="2022-03-31T23:38:10+08:00">2022-03-31</time>
+      <time title="修改时间：2022-06-14 21:57:18" itemprop="dateModified" datetime="2022-06-14T21:57:18+08:00">2022-06-14</time>
     </span>
 
   
@@ -565,9 +559,10 @@ GRUB</h2>
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="update">Update</h1>
+          <div class="note warning"><h1 id="update">Update</h1>
 <p>Since Ubuntu 18.04 LTS is released, this article may be out of
 date.</p>
+</div>
 <h2 id="原文">原文</h2>
 <p>Ubuntu
 17.10更新使用了Wayland作为默认显示服务器，并用gdm3代替了lightdm。但这些更新可能导致Intel+Nvidia显卡的电脑（例如笔者的电脑）不能使用nvidia驱动进入桌面。本文简要介绍了如何重新启用nvidia驱动进入桌面。</p>
@@ -640,7 +635,7 @@ date.</p>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-31 23:38:10" itemprop="dateModified" datetime="2022-03-31T23:38:10+08:00">2022-03-31</time>
+      <time title="修改时间：2022-06-14 21:34:54" itemprop="dateModified" datetime="2022-06-14T21:34:54+08:00">2022-06-14</time>
     </span>
 
   
