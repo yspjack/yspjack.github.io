@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -17,15 +17,16 @@
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Windows 修复ESP分区1bcdboot C:\Windows  Multi-boot Windows(EFI) via GRUBhttps:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;GRUB#Windows_installed_in_UEFI&#x2F;GPT_mode">
+    <meta name="description" content="Windows 修复ESP分区 1bcdboot C:\Windows Multi-boot Windows(EFI) via GRUB https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;GRUB#Windows_installed_in_UEFI&#x2F;GPT_mode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multi(Dual)-booting">
 <meta property="og:url" content="http://yoursite.com/2022/04/01/multi-boot/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Windows 修复ESP分区1bcdboot C:\Windows  Multi-boot Windows(EFI) via GRUBhttps:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;GRUB#Windows_installed_in_UEFI&#x2F;GPT_mode">
+<meta property="og:description" content="Windows 修复ESP分区 1bcdboot C:\Windows Multi-boot Windows(EFI) via GRUB https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;GRUB#Windows_installed_in_UEFI&#x2F;GPT_mode">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-31T17:04:58.000Z">
 <meta property="article:modified_time" content="2022-03-31T17:07:06.954Z">
@@ -118,7 +119,10 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-%E4%BF%AE%E5%A4%8DESP%E5%88%86%E5%8C%BA"><span class="nav-number">1.</span> <span class="nav-text">Windows 修复ESP分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-boot-Windows-EFI-via-GRUB"><span class="nav-number">2.</span> <span class="nav-text">Multi-boot Windows(EFI) via GRUB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#os-prober-bug-%E6%89%BE%E4%B8%8D%E5%88%B0ESP%E5%88%86%E5%8C%BA-MBR"><span class="nav-number">3.</span> <span class="nav-text">os-prober bug: 找不到ESP分区(MBR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Time-standard-Timezone"><span class="nav-number">4.</span> <span class="nav-text">Time standard(Timezone)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-use-localtime"><span class="nav-number">4.1.</span> <span class="nav-text">Linux use localtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTC-in-Microsoft-Windows-recommended"><span class="nav-number">4.2.</span> <span class="nav-text">UTC in Microsoft Windows(recommended)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-%E4%BF%AE%E5%A4%8Desp%E5%88%86%E5%8C%BA"><span class="nav-number">1.</span> <span class="nav-text">Windows 修复ESP分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multi-boot-windowsefi-via-grub"><span class="nav-number">2.</span> <span class="nav-text">Multi-boot Windows(EFI) via
+GRUB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#os-prober-bug-%E6%89%BE%E4%B8%8D%E5%88%B0esp%E5%88%86%E5%8C%BAmbr"><span class="nav-number">3.</span> <span class="nav-text">os-prober bug:
+找不到ESP分区(MBR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-standardtimezone"><span class="nav-number">4.</span> <span class="nav-text">Time standard(Timezone)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-use-localtime"><span class="nav-number">4.1.</span> <span class="nav-text">Linux use localtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#utc-in-microsoft-windowsrecommended"><span class="nav-number">4.2.</span> <span class="nav-text">UTC in Microsoft
+Windows(recommended)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -131,13 +135,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -219,21 +223,25 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="Windows-修复ESP分区"><a href="#Windows-修复ESP分区" class="headerlink" title="Windows 修复ESP分区"></a>Windows 修复ESP分区</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcdboot C:\Windows</span><br></pre></td></tr></table></figure>
-
-<h2 id="Multi-boot-Windows-EFI-via-GRUB"><a href="#Multi-boot-Windows-EFI-via-GRUB" class="headerlink" title="Multi-boot Windows(EFI) via GRUB"></a>Multi-boot Windows(EFI) via GRUB</h2><p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/GRUB#Windows_installed_in_UEFI/GPT_mode">https://wiki.archlinux.org/title/GRUB#Windows_installed_in_UEFI/GPT_mode</a></p>
+        <h2 id="windows-修复esp分区">Windows 修复ESP分区</h2>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcdboot C:\Windows</span><br></pre></td></tr></table></figure>
+<h2 id="multi-boot-windowsefi-via-grub">Multi-boot Windows(EFI) via
+GRUB</h2>
+<p>https://wiki.archlinux.org/title/GRUB#Windows_installed_in_UEFI/GPT_mode</p>
 <span id="more"></span>
-
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if [ &quot;$&#123;grub_platform&#125;&quot; == &quot;efi&quot; ]; then</span><br><span class="line">	menuentry &quot;Microsoft Windows Vista/7/8/8.1 UEFI/GPT&quot; &#123;</span><br><span class="line">		insmod part_gpt</span><br><span class="line">		insmod fat</span><br><span class="line">		insmod chain</span><br><span class="line">		search --no-floppy --fs-uuid --set=root $hints_string $fs_uuid</span><br><span class="line">		chainloader /EFI/Microsoft/Boot/bootmgfw.efi</span><br><span class="line">	&#125;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">grub-probe --target=fs_uuid /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">grub-probe --target=hints_string /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="os-prober-bug-找不到ESP分区-MBR"><a href="#os-prober-bug-找不到ESP分区-MBR" class="headerlink" title="os-prober bug: 找不到ESP分区(MBR)"></a>os-prober bug: 找不到ESP分区(MBR)</h2><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--- /usr/lib/os-probes/mounted/05efi	2017-01-21 23:43:28.000000000 +0800</span></span><br><span class="line"><span class="comment">+++ /tmp/05efi	2021-10-06 22:11:02.332865995 +0800</span></span><br><span class="line"><span class="meta">@@ -39,9 +39,9 @@</span></span><br><span class="line"> 	debug &quot;$partition partition type is $ID_PART_ENTRY_TYPE&quot;</span><br><span class="line"> </span><br><span class="line"> 	if [ -z &quot;$ID_PART_ENTRY_TYPE&quot; -o -z &quot;$ID_PART_ENTRY_SCHEME&quot; -o \</span><br><span class="line"><span class="deletion">-		\( &quot;$ID_PART_ENTRY_SCHEME&quot; != gpt -a &quot;$ID_PART_ENTRY_SCHEME&quot; != msdos \) -o \</span></span><br><span class="line"><span class="addition">+		\( &quot;$ID_PART_ENTRY_SCHEME&quot; != gpt -a &quot;$ID_PART_ENTRY_SCHEME&quot; != dos \) -o \</span></span><br><span class="line"> 		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = gpt -a &quot;$ID_PART_ENTRY_TYPE&quot; != c12a7328-f81f-11d2-ba4b-00a0c93ec93b \) -o \</span><br><span class="line"><span class="deletion">-		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = msdos -a &quot;$ID_PART_ENTRY_TYPE&quot; != 0xef \) ]; then</span></span><br><span class="line"><span class="addition">+		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = dos -a &quot;$ID_PART_ENTRY_TYPE&quot; != 0xef \) ]; then</span></span><br><span class="line"> 		debug &quot;$partition is not a ESP partition: exiting&quot;</span><br><span class="line"> 		exit 1</span><br><span class="line"> 	fi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="Time-standard-Timezone"><a href="#Time-standard-Timezone" class="headerlink" title="Time standard(Timezone)"></a>Time standard(Timezone)</h2><h3 id="Linux-use-localtime"><a href="#Linux-use-localtime" class="headerlink" title="Linux use localtime"></a>Linux use localtime</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-local-rtc 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="UTC-in-Microsoft-Windows-recommended"><a href="#UTC-in-Microsoft-Windows-recommended" class="headerlink" title="UTC in Microsoft Windows(recommended)"></a>UTC in Microsoft Windows(recommended)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation]</span><br><span class="line">     &quot;RealTimeIsUniversal&quot;=dword:00000001</span><br></pre></td></tr></table></figure>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/GRUB">https://wiki.archlinux.org/title/GRUB</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/bcdboot-command-line-options-techref-di">https://docs.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/bcdboot-command-line-options-techref-di</a></p>
+<h2 id="os-prober-bug-找不到esp分区mbr">os-prober bug:
+找不到ESP分区(MBR)</h2>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--- /usr/lib/os-probes/mounted/05efi	2017-01-21 23:43:28.000000000 +0800</span></span><br><span class="line"><span class="comment">+++ /tmp/05efi	2021-10-06 22:11:02.332865995 +0800</span></span><br><span class="line"><span class="meta">@@ -39,9 +39,9 @@</span></span><br><span class="line"> 	debug &quot;$partition partition type is $ID_PART_ENTRY_TYPE&quot;</span><br><span class="line"> </span><br><span class="line"> 	if [ -z &quot;$ID_PART_ENTRY_TYPE&quot; -o -z &quot;$ID_PART_ENTRY_SCHEME&quot; -o \</span><br><span class="line"><span class="deletion">-		\( &quot;$ID_PART_ENTRY_SCHEME&quot; != gpt -a &quot;$ID_PART_ENTRY_SCHEME&quot; != msdos \) -o \</span></span><br><span class="line"><span class="addition">+		\( &quot;$ID_PART_ENTRY_SCHEME&quot; != gpt -a &quot;$ID_PART_ENTRY_SCHEME&quot; != dos \) -o \</span></span><br><span class="line"> 		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = gpt -a &quot;$ID_PART_ENTRY_TYPE&quot; != c12a7328-f81f-11d2-ba4b-00a0c93ec93b \) -o \</span><br><span class="line"><span class="deletion">-		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = msdos -a &quot;$ID_PART_ENTRY_TYPE&quot; != 0xef \) ]; then</span></span><br><span class="line"><span class="addition">+		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = dos -a &quot;$ID_PART_ENTRY_TYPE&quot; != 0xef \) ]; then</span></span><br><span class="line"> 		debug &quot;$partition is not a ESP partition: exiting&quot;</span><br><span class="line"> 		exit 1</span><br><span class="line"> 	fi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="time-standardtimezone">Time standard(Timezone)</h2>
+<h3 id="linux-use-localtime">Linux use localtime</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-local-rtc 1</span><br></pre></td></tr></table></figure>
+<h3 id="utc-in-microsoft-windowsrecommended">UTC in Microsoft
+Windows(recommended)</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation]</span><br><span class="line">     &quot;RealTimeIsUniversal&quot;=dword:00000001</span><br></pre></td></tr></table></figure>
+<h2 id="reference">Reference</h2>
+<p>https://wiki.archlinux.org/title/GRUB</p>
+<p>https://docs.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/bcdboot-command-line-options-techref-di</p>
 
     </div>
 
@@ -289,12 +297,15 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
 
 
 
+  <script src="/js/third-party/fancybox.js"></script>
 
 
   
