@@ -2,6 +2,8 @@
 title: Multi(Dual)-booting
 date: 2022-04-01 01:04:58
 tags:
+- Windows
+- Linux
 ---
 
 ## Windows 修复ESP分区

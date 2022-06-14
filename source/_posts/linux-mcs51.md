@@ -1,7 +1,10 @@
 ---
 title: linux_mcs51
 date: 2017-08-19 08:49:36
-tags: Linux 51单片机 SDCC 
+tags:
+- Linux
+- 51单片机
+- SDCC 
 ---
 Tips: 
 <!--more-->

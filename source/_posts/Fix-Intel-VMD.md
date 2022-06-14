@@ -1,7 +1,9 @@
 ---
 title: Fix Intel VMD or RST
 date: 2022-06-14 18:26:17
-tags: 
+tags:
+- Windows
+- Intel
 ---
 
 # 修复 Intel VMD(Intel RST) 导致的问题
