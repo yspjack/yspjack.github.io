@@ -1,7 +1,7 @@
 ---
 title: Latex
 date: 2022-04-01 01:08:32
-tags:
+tags: Latex
 ---
 ## I can't find file `pzdr'
 
