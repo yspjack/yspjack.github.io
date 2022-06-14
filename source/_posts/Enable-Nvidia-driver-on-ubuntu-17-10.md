@@ -4,9 +4,11 @@ date: 2018-01-25 09:37:23
 tags: [nvidia driver,ubuntu]
 ---
 
+{% note warning %}
 # Update
 
 Since Ubuntu 18.04 LTS is released, this article may be out of date.
+{% endnote %}
 
 ## 原文
 
