@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="某些版本的Android系统更新后，正常情况下会调用 &#x2F;system&#x2F;bin&#x2F;install-recovery.sh 更新Recovery。 如果使用TWRP等第三方Recovery，recovery-from-boot.p会被重命名为recovery-from-boot.bak，导致该过程无法正常进行。 而官方ROM只有Boot镜像，没有直接提供Recovery镜像，需要手动生成。 根据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生成 Android recovery 镜像">
+<meta property="og:url" content="http://yoursite.com/2023/08/26/Extract-Android-Recovery-Image/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="某些版本的Android系统更新后，正常情况下会调用 &#x2F;system&#x2F;bin&#x2F;install-recovery.sh 更新Recovery。 如果使用TWRP等第三方Recovery，recovery-from-boot.p会被重命名为recovery-from-boot.bak，导致该过程无法正常进行。 而官方ROM只有Boot镜像，没有直接提供Recovery镜像，需要手动生成。 根据">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-25T17:49:30.000Z">
+<meta property="article:modified_time" content="2023-08-25T17:49:30.000Z">
+<meta property="article:author" content="yspjack">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2023/08/26/Extract-Android-Recovery-Image/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yoursite.com/2023/08/26/Extract-Android-Recovery-Image/","path":"2023/08/26/Extract-Android-Recovery-Image/","title":"生成 Android recovery 镜像"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>生成 Android recovery 镜像 | Hexo</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">提取文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-applypatch"><span class="nav-number">2.</span> <span class="nav-text">调用 applypatch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#applypatch-%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF"><span class="nav-number">2.1.</span> <span class="nav-text">applypatch 帮助信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90-recovery.img"><span class="nav-number">2.2.</span> <span class="nav-text">生成 recovery.img</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5recovery.img%E7%9A%84%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="nav-number">2.3.</span> <span class="nav-text">检查recovery.img的校验和</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yspjack</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/08/26/Extract-Android-Recovery-Image/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yspjack">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="生成 Android recovery 镜像 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          生成 Android recovery 镜像
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-08-26 01:49:30" itemprop="dateCreated datePublished" datetime="2023-08-26T01:49:30+08:00">2023-08-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>某些版本的Android系统更新后，正常情况下会调用
+<code>/system/bin/install-recovery.sh</code> 更新Recovery。
+如果使用TWRP等第三方Recovery，<code>recovery-from-boot.p</code>会被重命名为<code>recovery-from-boot.bak</code>，导致该过程无法正常进行。
+而官方ROM只有Boot镜像，没有直接提供Recovery镜像，需要手动生成。</p>
+<p>根据 <code>/system/bin/install-recovery.sh</code> 的内容，我们可以用
+<code>boot.img</code>，<code>recovery-resource.dat</code>，<code>recovery-from-boot.p</code>
+生成Recovery镜像。</p>
+<span id="more"></span>
+<h2 id="提取文件">提取文件</h2>
+<p>如果ROM包括 <code>system.transfer.list</code>,
+<code>system.new.dat</code>文件，在电脑端安装 Python 3，使用<a
+target="_blank" rel="noopener" href="https://github.com/xpirt/sdat2img">sdat2img</a> 提取
+<code>system.img</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sdat2img.py system.transfer.list system.new.dat system.img</span><br></pre></td></tr></table></figure>
+<p>如果只有 <code>payload.bin</code>，则使用 <a
+target="_blank" rel="noopener" href="https://github.com/ssut/payload-dumper-go">payload-dumper-go</a>
+提取 <code>system.img</code>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload-dumper-go payload.bin</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>新设备的 <code>payload.bin</code> 可能已经包含了 Recovery 镜像
+<code>recovery.img</code>，无需进行后续操作。</p>
+</div>
+<p>接下来从 <code>system.img</code> 提取
+<code>/bin/install-recovery.sh</code>，<code>/etc/recovery-resource.dat</code>，<code>/recovery-from-boot.p</code>。Windows
+可使用 7-Zip 打开<code>system.img</code>文件进行提取。</p>
+<p>最后将以下得到的4个文件，复制到 Android
+设备的目录（例如<code>/data/local/tmp</code>）：</p>
+<ul>
+<li>install-recovery.sh</li>
+<li>recovery-resource.dat</li>
+<li>recovery-from-boot.p</li>
+<li>boot.img</li>
+</ul>
+<h2 id="调用-applypatch">调用 applypatch</h2>
+<p>提取出的<code>install-recovery.sh</code>内容为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/system/bin/sh</span></span><br><span class="line"><span class="keyword">if</span> ! applypatch -c EMMC:/dev/block/bootdevice/by-name/recovery:32871724:07c2d811e95df920577ff4e3970f1c361c0c26df; <span class="keyword">then</span></span><br><span class="line">  applypatch -b /system/etc/recovery-resource.dat EMMC:/dev/block/bootdevice/by-name/boot:22328616:6dbc3aa6037b6a27239ed9602902b823a9e055da EMMC:/dev/block/bootdevice/by-name/recovery 07c2d811e95df920577ff4e3970f1c361c0c26df 32871724 6dbc3aa6037b6a27239ed9602902b823a9e055da:/system/recovery-from-boot.p &amp;&amp; <span class="built_in">log</span> -t recovery <span class="string">&quot;Installing new recovery image: succeeded&quot;</span> || <span class="built_in">log</span> -t recovery <span class="string">&quot;Installing new recovery image: failed&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">log</span> -t recovery <span class="string">&quot;Recovery image already installed&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h3 id="applypatch-帮助信息">applypatch 帮助信息</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">usage: applypatch [-b &lt;bonus-file&gt;] &lt;src-file&gt; &lt;tgt-file&gt; &lt;tgt-sha1&gt; &lt;tgt-size&gt; [&lt;src-sha1&gt;:&lt;patch&gt; ...]</span><br><span class="line">   or  applypatch -c &lt;file&gt; [&lt;sha1&gt; ...]</span><br><span class="line">   or  applypatch -s &lt;bytes&gt;</span><br><span class="line">   or  applypatch -l</span><br><span class="line"></span><br><span class="line">Filenames may be of the form</span><br><span class="line">  EMMC:&lt;partition&gt;:&lt;len_1&gt;:&lt;sha1_1&gt;:&lt;len_2&gt;:&lt;sha1_2&gt;:...</span><br><span class="line">to specify reading from or writing to an EMMC partition.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="生成-recovery.img">生成 <code>recovery.img</code></h3>
+<p>根据上述内容，可以推测 <code>install-recovery.sh</code> 刷入 Recovery
+的流程：</p>
+<ul>
+<li>脚本先检查 <code>recovery</code> 分区中 Recovery 镜像的 SHA-1</li>
+<li>如果检查通过，说明已经刷入正确的 Recovery 镜像</li>
+<li>否则，使用 <code>/system/etc/recovery-resource.dat</code>,
+<code>/system/recovery-from-boot.p</code> 对 Boot 镜像进行修补，得到
+Recovery 镜像刷入 <code>recovery</code> 分区。如果得到的 Recovery
+镜像大小或 SHA-1 不一致，则刷入失败。</li>
+</ul>
+<p>修改相关命令，使 <code>applypatch</code>
+只对镜像文件进行操作，避免破坏当前 <code>recovery</code> 分区。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">applypatch -b recovery-resource.dat EMMC:boot.img:22328616:6dbc3aa6037b6a27239ed9602902b823a9e055da EMMC:recovery.img 07c2d811e95df920577ff4e3970f1c361c0c26df 32871724 6dbc3aa6037b6a27239ed9602902b823a9e055da:recovery-from-boot.p</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>注意：由于 <code>applypatch</code> 会将临时文件存储在
+<code>/cache</code>，可能需要在已经获取 root 权限的 Android
+设备执行命令。</p>
+</div>
+<p>如果成功生成<code>recovery.img</code>，输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">patch EMMC:boot.img:22328616:6dbc3aa6037b6a27239ed9602902b823a9e055da: LoadPartitionContents called with bad filename &quot;EMMC:recovery.img&quot;</span><br><span class="line">partition read matched size 22328616 SHA-1 6dbc3aa6037b6a27239ed9602902b823a9e055da</span><br><span class="line">98988032 bytes free on /cache (22328616 needed)</span><br><span class="line">now 07c2d811</span><br><span class="line">  caches dropped</span><br><span class="line">verification read succeeded (attempt 1)</span><br></pre></td></tr></table></figure>
+<h3
+id="检查recovery.img的校验和">检查<code>recovery.img</code>的校验和</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">applypatch -c EMMC:recovery.img:32871724:07c2d811e95df920577ff4e3970f1c361c0c26df</span><br></pre></td></tr></table></figure>
+<p>如果校验通过，输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">partition read matched size 32871724 SHA-1 07c2d811e95df920577ff4e3970f1c361c0c26df</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/06/weekly-contest-357/" rel="prev" title="LeetCode 第 357 场周赛">
+                  <i class="fa fa-chevron-left"></i> LeetCode 第 357 场周赛
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yspjack</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.14.0/mermaid.min.js","integrity":"sha256-7wT34TI0pEBeEFoi4z+vhuSddGh6vUTMWdqJ2SDe2jg="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

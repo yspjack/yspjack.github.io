@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Latex</title>
+    <url>/2022/04/01/Latex/</url>
+    <content><![CDATA[<h2 id="i-cant-find-file-pzdr">I can't find file `pzdr'</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install texlive-fonts-recommended</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Latex</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Enable Nvidia driver on ubuntu 17.10</title>
+    <url>/2018/01/25/Enable-Nvidia-driver-on-ubuntu-17-10/</url>
+    <content><![CDATA[<div class="note warning"><h1 id="update">Update</h1>
+<p>Since Ubuntu 18.04 LTS is released, this article may be out of
+date.</p>
+</div>
+<h2 id="原文">原文</h2>
+<p>Ubuntu
+17.10更新使用了Wayland作为默认显示服务器，并用gdm3代替了lightdm。但这些更新可能导致Intel+Nvidia显卡的电脑（例如笔者的电脑）不能使用nvidia驱动进入桌面。本文简要介绍了如何重新启用nvidia驱动进入桌面。</p>
+<span id="more"></span>
+<h3 id="写在前面">写在前面</h3>
+<p>首先进入BIOS设置，关闭安全启动(Secure Boot)
+打开终端模拟器的快捷键一般是<code>Ctrl+Alt+T</code></p>
+<h3 id="卸载之前安装的nvidia驱动">卸载之前安装的nvidia驱动</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt purge nvidia-*</span><br></pre></td></tr></table></figure>
+<h3 id="安装驱动nvidia-384">安装驱动nvidia-384</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install nvidia-384</span><br></pre></td></tr></table></figure>
+<h3 id="选择使用nvidia显卡">选择使用nvidia显卡</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo prime-select nvidia</span><br></pre></td></tr></table></figure>
+<h3 id="重启桌面环境">重启桌面环境</h3>
+<p>首先注销(logout)当前用户，然后进入tty(例如tty3
+<code>Ctrl+Alt+F3</code>)，登录（注意小键盘此时没有num lock）。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo service gdm3 restart</span><br></pre></td></tr></table></figure>
+<p>接着电脑可能会卡死1分钟左右，然后出现登录界面。
+登录后，打开终端模拟器，验证nvidia驱动是否正常工作。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>如果正常，结果应该是类似这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Thu Jan 25 10:00:31 2018</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 384.111                Driver Version: 384.111                   |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  GeForce GTX 1050    Off  | 00000000:01:00.0 Off |                  N/A |</span><br><span class="line">| N/A   46C    P8    N/A /  N/A |    437MiB /  1999MiB |      6%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line">                                                                               </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|    0      1427      G   /usr/lib/xorg/Xorg                            29MiB |</span><br><span class="line">|    0      3830      G   /usr/bin/gnome-shell                           8MiB |</span><br><span class="line">|    0      6663      G   /usr/lib/xorg/Xorg                           148MiB |</span><br><span class="line">|    0      6857      G   /usr/bin/gnome-shell                         134MiB |</span><br><span class="line">|    0      7207      G   fcitx-qimpanel                                48MiB |</span><br><span class="line">|    0     14693      G   ...-token=CF289DEABC3E3E58C43168E984D2BFFE    64MiB |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>nvidia driver</tag>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>修复 Intel VMD(Intel RST) 导致的问题</title>
+    <url>/2022/06/14/Fix-Intel-VMD/</url>
+    <content><![CDATA[<h1 id="问题描述">问题描述</h1>
+<p>最新一代Intel CPU的笔记本电脑默认开启Intel Volume Management Device
+(VMD)，导致以下问题：</p>
+<ul>
+<li>安装Windows 10时找不到磁盘驱动器</li>
+<li>Windows启动时蓝屏（错误代码：Inaccessible_Boot_Device）</li>
+</ul>
+<h1 id="修复">修复</h1>
+<p>步骤：</p>
+<ul>
+<li>获取驱动程序</li>
+<li>安装驱动</li>
+<li>修改驱动加载设置</li>
+</ul>
+<span id="more"></span>
+<h2 id="获取驱动程序">获取驱动程序</h2>
+<p>个人推荐从笔记本电脑的品牌官方网站下载驱动，而不是从Intel下载。
+以华硕笔记本为例：</p>
+<img src="/2022/06/14/Fix-Intel-VMD/asus.png" class="" title="华硕笔记本的下载页面">
+<h2 id="安装驱动">安装驱动</h2>
+<h3 id="正在安装windows">正在安装Windows</h3>
+<p>在安装过程中加载相对应的Intel
+VMD驱动程序即可。网络上已经有很多详细教程。</p>
+<img src="/2022/06/14/Fix-Intel-VMD/57787_image2.png" class="" title="Intel的教程">
+<p>(图片来自 <a
+href="https://www.intel.com/content/www/us/en/support/articles/000057787/memory-and-storage/intel-optane-memory.html">www.intel.com/content/www/us/en/support/articles/000057787/memory-and-storage/intel-optane-memory.html</a>)</p>
+<h3 id="已安装windows">已安装Windows</h3>
+<p>使用Dism++（图形化界面，推荐使用），或者以<strong>管理员权限</strong>运行DISM命令，离线安装驱动：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">DISM.exe /Image:X:\Windows /<span class="built_in">Add-Driver</span> /Driver:D:\Drivers /recurse</span><br></pre></td></tr></table></figure>
+<h2 id="修改驱动加载设置">修改驱动加载设置</h2>
+<p>打开<code>regedit</code></p>
+<p>选择<code>HKEY_LOCAL_MACHINE</code>，菜单选择文件-加载配置单元。</p>
+<img src="/2022/06/14/Fix-Intel-VMD/regedit-load.png" class="">
+<p>选择<code>X:\Windows\System32\config\SYSTEM</code>文件，项名称输入<code>win10</code></p>
+<p>定位到<code>HKEY_LOCAL_MACHINE\win10\ControlSet001\Services\iaStorVD</code>，
+把<code>Start</code>值(类型为REG_DWORD)改成0，如果有<code>StartOverride</code>项，则删掉该项。</p>
+<p>定位到<code>HKEY_LOCAL_MACHINE\win10\ControlSet001\Services\iaStorAVC</code>和
+把<code>Start</code>值改成0，添加<code>StartOverride</code>项，设置如下。</p>
+<img src="/2022/06/14/Fix-Intel-VMD/iaStorAVC.png" class="">
+<p><code>HKEY_LOCAL_MACHINE\win10\ControlSet001\Services\stornvme</code>设置如下。</p>
+<img src="/2022/06/14/Fix-Intel-VMD/stornvme.png" class="">
+<p>修改后，卸载配置单元。</p>
+]]></content>
+      <tags>
+        <tag>Windows</tag>
+        <tag>Intel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2017/08/10/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very
+first post. Check <a href="https://hexo.io/docs/">documentation</a> for
+more info. If you get any problems when using Hexo, you can find the
+answer in <a
+href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or
+you can ask me on <a
+href="https://github.com/hexojs/hexo/issues">GitHub</a>. <span id="more"></span> ##
+Quick Start</p>
+<h3 id="create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a
+href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a
+href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a
+href="https://hexo.io/docs/deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Welcome</title>
+    <url>/2017/08/10/Welcome/</url>
+    <content><![CDATA[<p>你好，欢迎来到我的个人技术博客。 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> std::cout;</span><br><span class="line"><span class="keyword">using</span> std::endl;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;Welcome&quot;</span>&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="my-projects">My projects</h2>
+<p>DrawConic 绘制函数图像(SDL界面) SDL_SaveImage 保存SDL_Sueface到图片
+native_audio_c4droid …… TicTacToe 井字棋(SDL界面)</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Multi(Dual)-booting</title>
+    <url>/2022/04/01/multi-boot/</url>
+    <content><![CDATA[<h2 id="windows-修复esp分区">Windows 修复ESP分区</h2>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">bcdboot C:\Windows</span><br></pre></td></tr></table></figure>
+<h2 id="multi-boot-windowsefi-via-grub">Multi-boot Windows(EFI) via
+GRUB</h2>
+<p>https://wiki.archlinux.org/title/GRUB#Windows_installed_in_UEFI/GPT_mode</p>
+<span id="more"></span>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">if [ &quot;$&#123;grub_platform&#125;&quot; == &quot;efi&quot; ]; then</span><br><span class="line">	menuentry &quot;Microsoft Windows Vista/7/8/8.1 UEFI/GPT&quot; &#123;</span><br><span class="line">		insmod part_gpt</span><br><span class="line">		insmod fat</span><br><span class="line">		insmod chain</span><br><span class="line">		search --no-floppy --fs-uuid --set=root $hints_string $fs_uuid</span><br><span class="line">		chainloader /EFI/Microsoft/Boot/bootmgfw.efi</span><br><span class="line">	&#125;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">grub-probe --target=fs_uuid /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">grub-probe --target=hints_string /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi</span></span><br></pre></td></tr></table></figure>
+<h2 id="os-prober-bug-找不到esp分区mbr">os-prober bug:
+找不到ESP分区(MBR)</h2>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line"><span class="comment">--- /usr/lib/os-probes/mounted/05efi	2017-01-21 23:43:28.000000000 +0800</span></span><br><span class="line"><span class="comment">+++ /tmp/05efi	2021-10-06 22:11:02.332865995 +0800</span></span><br><span class="line"><span class="meta">@@ -39,9 +39,9 @@</span></span><br><span class="line"> 	debug &quot;$partition partition type is $ID_PART_ENTRY_TYPE&quot;</span><br><span class="line"> </span><br><span class="line"> 	if [ -z &quot;$ID_PART_ENTRY_TYPE&quot; -o -z &quot;$ID_PART_ENTRY_SCHEME&quot; -o \</span><br><span class="line"><span class="deletion">-		\( &quot;$ID_PART_ENTRY_SCHEME&quot; != gpt -a &quot;$ID_PART_ENTRY_SCHEME&quot; != msdos \) -o \</span></span><br><span class="line"><span class="addition">+		\( &quot;$ID_PART_ENTRY_SCHEME&quot; != gpt -a &quot;$ID_PART_ENTRY_SCHEME&quot; != dos \) -o \</span></span><br><span class="line"> 		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = gpt -a &quot;$ID_PART_ENTRY_TYPE&quot; != c12a7328-f81f-11d2-ba4b-00a0c93ec93b \) -o \</span><br><span class="line"><span class="deletion">-		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = msdos -a &quot;$ID_PART_ENTRY_TYPE&quot; != 0xef \) ]; then</span></span><br><span class="line"><span class="addition">+		\( &quot;$ID_PART_ENTRY_SCHEME&quot; = dos -a &quot;$ID_PART_ENTRY_TYPE&quot; != 0xef \) ]; then</span></span><br><span class="line"> 		debug &quot;$partition is not a ESP partition: exiting&quot;</span><br><span class="line"> 		exit 1</span><br><span class="line"> 	fi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="time-standardtimezone">Time standard(Timezone)</h2>
+<h3 id="linux-use-localtime">Linux use localtime</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">timedatectl set-local-rtc 1</span><br></pre></td></tr></table></figure>
+<h3 id="utc-in-microsoft-windowsrecommended">UTC in Microsoft
+Windows(recommended)</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation]</span><br><span class="line">     &quot;RealTimeIsUniversal&quot;=dword:00000001</span><br></pre></td></tr></table></figure>
+<h2 id="reference">Reference</h2>
+<p>https://wiki.archlinux.org/title/GRUB</p>
+<p>https://docs.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/bcdboot-command-line-options-techref-di</p>
+]]></content>
+      <tags>
+        <tag>Windows</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux_mcs51</title>
+    <url>/2017/08/19/linux-mcs51/</url>
+    <content><![CDATA[<p>Tips: <span id="more"></span> stcflash <img src="/2017/08/19/linux-mcs51/screenshot1.png" class="" title="Usage of stcflash.py"></p>
+<h2 id="start">Start</h2>
+<h3 id="install-sdccsmall-device-c-compiler">Install sdcc(Small Device C
+Compiler)</h3>
+<p>on Ubuntu/Debian <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install sdcc</span><br></pre></td></tr></table></figure></p>
+<h3 id="install-stcflash">Install stcflash</h3>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>51单片机</tag>
+        <tag>SDCC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MS Office File to PDF</title>
+    <url>/2022/04/01/office-to-pdf/</url>
+    <content><![CDATA[<h2 id="doc-to-pdf">doc to pdf</h2>
+<p>https://stackoverflow.com/a/6018039</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> comtypes.client</span><br><span class="line"></span><br><span class="line">wdFormatPDF = <span class="number">17</span></span><br><span class="line"></span><br><span class="line">in_file = os.path.abspath(sys.argv[<span class="number">1</span>])</span><br><span class="line">out_file = os.path.abspath(sys.argv[<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line">word = comtypes.client.CreateObject(<span class="string">&#x27;Word.Application&#x27;</span>)</span><br><span class="line">doc = word.Documents.Open(in_file)</span><br><span class="line">doc.SaveAs(out_file, FileFormat=wdFormatPDF)</span><br><span class="line">doc.Close()</span><br><span class="line">word.Quit()</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>using <code>pywin32</code>:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> win32com.client</span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">word = win32com.client.Dispatch(<span class="string">&#x27;Word.Application&#x27;</span>)</span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+<h2 id="ppt-to-pdf">ppt to pdf</h2>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> source=<span class="title class_">WScript</span>.<span class="property">Arguments</span>.<span class="title class_">Item</span>(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//var target=WScript.Arguments.Item(1);</span></span><br><span class="line"><span class="keyword">var</span> target=source.<span class="title function_">substr</span>(<span class="number">0</span>, source.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;.&#x27;</span>))+<span class="string">&quot;.pdf&quot;</span>;</span><br><span class="line"><span class="variable constant_">PP</span> = <span class="keyword">new</span> <span class="title class_">ActiveXObject</span>(<span class="string">&quot;PowerPoint.Application&quot;</span>);</span><br><span class="line"><span class="variable constant_">PRSNT</span> = <span class="variable constant_">PP</span>.<span class="property">presentations</span>.<span class="title class_">Open</span>(source,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line"><span class="comment">//PRSNT.SaveCopyAs(target,32);</span></span><br><span class="line"><span class="comment">//https://msdn.microsoft.com/en-us/vba/powerpoint-vba/articles/ppsaveasfiletype-enumeration-powerpoint</span></span><br><span class="line"><span class="variable constant_">PRSNT</span>.<span class="title class_">SaveAs</span>(target,<span class="number">32</span>);</span><br><span class="line"><span class="variable constant_">PRSNT</span>.<span class="title class_">Close</span>();</span><br><span class="line"><span class="variable constant_">PP</span>.<span class="title class_">Quit</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="reference">Reference</h2>
+<p>https://docs.microsoft.com/en-us/office/vba/api/word.wdsaveformat</p>
+<p>https://docs.microsoft.com/en-us/office/vba/api/powerpoint.ppsaveasfiletype</p>
+]]></content>
+      <tags>
+        <tag>Windows</tag>
+        <tag>Office</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 第 357 场周赛</title>
+    <url>/2023/08/06/weekly-contest-357/</url>
+    <content><![CDATA[<h1 id="leetcode-第-357-场周赛">LeetCode 第 357 场周赛</h1>
+<p>已 AC 的题目列表：</p>
+<ul>
+<li>故障键盘</li>
+<li>判断是否能拆分数组</li>
+<li>找出最安全路径</li>
+</ul>
+<span id="more"></span>
+<h2 id="故障键盘">故障键盘</h2>
+<p>题目链接： https://leetcode.cn/problems/faulty-keyboard/</p>
+<p>按照题意直接模拟：如果字符不为 <code>i</code>
+则加入到输出字符串，否则将输出字符串反转。</p>
+<p>时间复杂度为 <span class="math inline">\(O(n^2)\)</span>，<span
+class="math inline">\(n\)</span> 为字符串长度</p>
+<h2 id="判断是否能拆分数组">判断是否能拆分数组</h2>
+<p>题目链接：
+https://leetcode.cn/problems/check-if-it-is-possible-to-split-array/</p>
+<p>首先求出前缀和，方便后续计算区间和</p>
+<p>区间DP，定义状态 <span class="math inline">\(d(i,j)\)</span> 为区间
+<span class="math inline">\([i,j]\)</span>
+可划分得到满足要求的数组的数量，最后判断是否满足 <span
+class="math inline">\(d(0,n-1) \ge n\)</span></p>
+<p>状态转移：</p>
+<p>在 <span class="math inline">\([i,j]\)</span> 中枚举 <span
+class="math inline">\(k\)</span></p>
+<p><span class="math inline">\(k=i\)</span> 时，如果 <span
+class="math inline">\(\sum_{l=i+1}^{j} nums[l] \ge m\)</span></p>
+<p><span class="math display">\[
+d(i,j) \leftarrow \max \{d(i,j),d(i+1,j)+1\}
+\]</span></p>
+<p><span class="math inline">\(k=j-1\)</span> 时，如果 <span
+class="math inline">\(\sum_{l=i}^{j-1} nums[l] \ge m\)</span></p>
+<p><span class="math display">\[
+d(i,j) \leftarrow \max \{d(i,j), d(i,j-1)+1 \}
+\]</span></p>
+<p>否则 <span class="math inline">\(i&lt;k&lt;j-1\)</span>，判断是否满足
+<span class="math inline">\(\sum_{l=i}^{k} nums[l] \ge m\)</span> 或
+<span class="math inline">\(\sum_{l=k+1}^{j} nums[l] \ge
+m\)</span>，如果满足则进行转移：</p>
+<p><span class="math display">\[
+d(i,j) \leftarrow  \max \{d(i,j), d(i,k)+d(k+1,j)\}
+\]</span></p>
+<p>需要注意边界情况：</p>
+<ul>
+<li>子数组的长度为 1，返回 1</li>
+<li>子数组的长度为 2，返回 2</li>
+</ul>
+<p>时间复杂度为 <span class="math inline">\(O(n^3)\)</span></p>
+<h2 id="找出最安全路径">找出最安全路径</h2>
+<p>题目链接：
+https://leetcode.cn/problems/find-the-safest-path-in-a-grid/</p>
+<p>先广度优先搜索，以 <code>grid[r][c] = 1</code>
+的网格为起点向上下左右4个方向扩展，预处理所有网格的安全系数：</p>
+<table>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>题目要求<strong>最小</strong>曼哈顿距离的<strong>最大</strong>值，显然可以使用二分答案的方法。
+对安全系数进行二分，判断是否能找到一条从起点到终点的路径，其经过路径的安全系数都大于等于当前安全系数
+<code>mid</code>。 使用广度优先搜索寻找路径，以 (0,0)
+为起点向上下左右4个方向扩展，扩展时判断网格安全系数都大于等于
+<code>mid</code>，判断是否到达终点</p>
+<p>时间复杂度为 <span class="math inline">\(O(n^2 \log n)\)</span></p>
+]]></content>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生成 Android recovery 镜像</title>
+    <url>/2023/08/26/Extract-Android-Recovery-Image/</url>
+    <content><![CDATA[<p>某些版本的Android系统更新后，正常情况下会调用
+<code>/system/bin/install-recovery.sh</code> 更新Recovery。
+如果使用TWRP等第三方Recovery，<code>recovery-from-boot.p</code>会被重命名为<code>recovery-from-boot.bak</code>，导致该过程无法正常进行。
+而官方ROM只有Boot镜像，没有直接提供Recovery镜像，需要手动生成。</p>
+<p>根据 <code>/system/bin/install-recovery.sh</code> 的内容，我们可以用
+<code>boot.img</code>，<code>recovery-resource.dat</code>，<code>recovery-from-boot.p</code>
+生成Recovery镜像。</p>
+<span id="more"></span>
+<h2 id="提取文件">提取文件</h2>
+<p>如果ROM包括 <code>system.transfer.list</code>,
+<code>system.new.dat</code>文件，在电脑端安装 Python 3，使用<a
+href="https://github.com/xpirt/sdat2img">sdat2img</a> 提取
+<code>system.img</code></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">python sdat2img.py system.transfer.list system.new.dat system.img</span><br></pre></td></tr></table></figure>
+<p>如果只有 <code>payload.bin</code>，则使用 <a
+href="https://github.com/ssut/payload-dumper-go">payload-dumper-go</a>
+提取 <code>system.img</code>。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">payload-dumper-go payload.bin</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>新设备的 <code>payload.bin</code> 可能已经包含了 Recovery 镜像
+<code>recovery.img</code>，无需进行后续操作。</p>
+</div>
+<p>接下来从 <code>system.img</code> 提取
+<code>/bin/install-recovery.sh</code>，<code>/etc/recovery-resource.dat</code>，<code>/recovery-from-boot.p</code>。Windows
+可使用 7-Zip 打开<code>system.img</code>文件进行提取。</p>
+<p>最后将以下得到的4个文件，复制到 Android
+设备的目录（例如<code>/data/local/tmp</code>）：</p>
+<ul>
+<li>install-recovery.sh</li>
+<li>recovery-resource.dat</li>
+<li>recovery-from-boot.p</li>
+<li>boot.img</li>
+</ul>
+<h2 id="调用-applypatch">调用 applypatch</h2>
+<p>提取出的<code>install-recovery.sh</code>内容为：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/system/bin/sh</span></span><br><span class="line"><span class="keyword">if</span> ! applypatch -c EMMC:/dev/block/bootdevice/by-name/recovery:32871724:07c2d811e95df920577ff4e3970f1c361c0c26df; <span class="keyword">then</span></span><br><span class="line">  applypatch -b /system/etc/recovery-resource.dat EMMC:/dev/block/bootdevice/by-name/boot:22328616:6dbc3aa6037b6a27239ed9602902b823a9e055da EMMC:/dev/block/bootdevice/by-name/recovery 07c2d811e95df920577ff4e3970f1c361c0c26df 32871724 6dbc3aa6037b6a27239ed9602902b823a9e055da:/system/recovery-from-boot.p &amp;&amp; <span class="built_in">log</span> -t recovery <span class="string">&quot;Installing new recovery image: succeeded&quot;</span> || <span class="built_in">log</span> -t recovery <span class="string">&quot;Installing new recovery image: failed&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">log</span> -t recovery <span class="string">&quot;Recovery image already installed&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h3 id="applypatch-帮助信息">applypatch 帮助信息</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">usage: applypatch [-b &lt;bonus-file&gt;] &lt;src-file&gt; &lt;tgt-file&gt; &lt;tgt-sha1&gt; &lt;tgt-size&gt; [&lt;src-sha1&gt;:&lt;patch&gt; ...]</span><br><span class="line">   or  applypatch -c &lt;file&gt; [&lt;sha1&gt; ...]</span><br><span class="line">   or  applypatch -s &lt;bytes&gt;</span><br><span class="line">   or  applypatch -l</span><br><span class="line"></span><br><span class="line">Filenames may be of the form</span><br><span class="line">  EMMC:&lt;partition&gt;:&lt;len_1&gt;:&lt;sha1_1&gt;:&lt;len_2&gt;:&lt;sha1_2&gt;:...</span><br><span class="line">to specify reading from or writing to an EMMC partition.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="生成-recovery.img">生成 <code>recovery.img</code></h3>
+<p>根据上述内容，可以推测 <code>install-recovery.sh</code> 刷入 Recovery
+的流程：</p>
+<ul>
+<li>脚本先检查 <code>recovery</code> 分区中 Recovery 镜像的 SHA-1</li>
+<li>如果检查通过，说明已经刷入正确的 Recovery 镜像</li>
+<li>否则，使用 <code>/system/etc/recovery-resource.dat</code>,
+<code>/system/recovery-from-boot.p</code> 对 Boot 镜像进行修补，得到
+Recovery 镜像刷入 <code>recovery</code> 分区。如果得到的 Recovery
+镜像大小或 SHA-1 不一致，则刷入失败。</li>
+</ul>
+<p>修改相关命令，使 <code>applypatch</code>
+只对镜像文件进行操作，避免破坏当前 <code>recovery</code> 分区。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">applypatch -b recovery-resource.dat EMMC:boot.img:22328616:6dbc3aa6037b6a27239ed9602902b823a9e055da EMMC:recovery.img 07c2d811e95df920577ff4e3970f1c361c0c26df 32871724 6dbc3aa6037b6a27239ed9602902b823a9e055da:recovery-from-boot.p</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>注意：由于 <code>applypatch</code> 会将临时文件存储在
+<code>/cache</code>，可能需要在已经获取 root 权限的 Android
+设备执行命令。</p>
+</div>
+<p>如果成功生成<code>recovery.img</code>，输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">patch EMMC:boot.img:22328616:6dbc3aa6037b6a27239ed9602902b823a9e055da: LoadPartitionContents called with bad filename &quot;EMMC:recovery.img&quot;</span><br><span class="line">partition read matched size 22328616 SHA-1 6dbc3aa6037b6a27239ed9602902b823a9e055da</span><br><span class="line">98988032 bytes free on /cache (22328616 needed)</span><br><span class="line">now 07c2d811</span><br><span class="line">  caches dropped</span><br><span class="line">verification read succeeded (attempt 1)</span><br></pre></td></tr></table></figure>
+<h3
+id="检查recovery.img的校验和">检查<code>recovery.img</code>的校验和</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">applypatch -c EMMC:recovery.img:32871724:07c2d811e95df920577ff4e3970f1c361c0c26df</span><br></pre></td></tr></table></figure>
+<p>如果校验通过，输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partition read matched size 32871724 SHA-1 07c2d811e95df920577ff4e3970f1c361c0c26df</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+</search>
