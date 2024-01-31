@@ -4,7 +4,17 @@ date: 2023-09-23 20:50:30
 tags:
 ---
 
-## FAQ
+## 工具链
+
+gcc 4.9（已弃用）
+
+https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+/refs/tags/ndk-r19c/
+
+clang
+
+https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
+
+## 解决编译错误
 
 ### undefined reference to `stpcpy'
 
